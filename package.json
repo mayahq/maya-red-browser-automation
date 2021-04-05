@@ -1,0 +1,29 @@
+{
+  "name": "maya-red-browser-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "open": "^8.0.5",
+    "uuid": "^8.3.2"
+  },
+  "node-red": {
+    "nodes": {
+      "maya-browser-clear": "apis/clear.js",
+      "maya-browser-click": "apis/click.js",
+      "maya-browser-connect": "apis/connect.js",
+      "maya-browser-find-tab": "apis/findTab.js",
+      "maya-browser-navigate": "apis/navigate.js",
+      "maya-browser-open": "apis/open.js",
+      "maya-browser-type": "apis/type.js",
+      "maya-browser-close-tabs": "apis/closeTabs.js"
+    }
+  }
+}
