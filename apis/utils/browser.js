@@ -13,7 +13,7 @@ class Browser {
                 payload: { url: url },
                 timeout: timeout,
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     resolve(result.data);
                 })
@@ -24,19 +24,21 @@ class Browser {
     }
 
     findTab({ query, timeout = 2000 }) {
+        console.log('finding tab')
         return new Promise((resolve, reject) => {
             const data = {
                 type: "findTab",
                 payload: { query },
                 timeout: timeout
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log("FindTab:", result.data)
                     resolve(result)
                 })
-                .catch(({ response }) => {
-                    reject(response)
+                .catch((e) => {
+                    console.log("YIKES", e)
+                    reject(e.response)
                 })
         })
     }
@@ -48,7 +50,7 @@ class Browser {
                 payload: { closeOpts },
                 timeout: timeout || 2000
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log('CloseTab:', result.data)
                     resolve(result)

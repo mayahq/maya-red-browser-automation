@@ -44,6 +44,8 @@ module.exports = function (RED) {
       let content = await getValue(this.content, this.payloadTypeContent, msg);
       let tabId = await getValue(this.tabId, this.payloadTypeTabId, msg);
 
+      console.log('content', content);
+
       const opts = {
         selectorType: this.selectorType,
         selector,

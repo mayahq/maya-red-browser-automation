@@ -23,7 +23,8 @@
       "maya-browser-navigate": "apis/navigate.js",
       "maya-browser-open": "apis/open.js",
       "maya-browser-type": "apis/type.js",
-      "maya-browser-close-tabs": "apis/closeTabs.js"
+      "maya-browser-close-tabs": "apis/closeTabs.js",
+      "maya-browser-execute-function": "apis/executeFunction.js"
     }
   }
 }

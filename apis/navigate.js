@@ -1,4 +1,4 @@
-const { runInThisContext } = require("vm");
+const Page = require('./utils/page')
 
 module.exports = function (RED) {
     function MayaBrowserNavigate(config) {
@@ -41,8 +41,6 @@ module.exports = function (RED) {
               ? node.url.toString().substring(0, 15)
               : msg.url.toString().substring(0, 15) + "...",
         });
-        var globalContext = this.context().global;
-        let maya = globalContext.get("maya");
 
         let url = await getValue(this.url, this.payloadTypeUrl, msg);
         let tabId = await getValue(this.tabId, this.payloadTypeTabId, msg);
@@ -52,10 +50,10 @@ module.exports = function (RED) {
             opts.tabId = tabId
         }
 
-        maya.browser.navigate(opts)
+        const page = new Page()
+        page.navigate(opts)
             .then(async (result) => {
                 console.log('BRUH')
-                await globalContext.set("maya", maya);
                 node.send(msg);
                 node.status({
                     fill: "green",

@@ -17,7 +17,7 @@ class Page {
                 },
                 timeout: timeout || 1000,
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log("Click:", result.data);
                     resolve(result);
@@ -28,19 +28,19 @@ class Page {
         });
     }
 
-    type({ selectorType, selector, text, timeout, tabId }) {
+    type({ selectorType, selector, content, timeout, tabId }) {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "type",
                 payload: {
                     selector: selector,
                     selectorType: selectorType || "querySelector",
-                    text: text,
+                    text: content,
                     tabId: tabId
                 },
                 timeout: timeout || 1000,
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log("Type:", result.data);
                     resolve(result);
@@ -63,7 +63,7 @@ class Page {
                 },
                 timeout: timeout || 1000,
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log("Prompt:", result.data);
                     resolve(result);
@@ -74,7 +74,7 @@ class Page {
         });
     }
 
-    async navigate({ tabId, url, timeout }) {
+    navigate({ tabId, url, timeout }) {
         return new Promise((resolve, reject) => {
             const payload = { url }
             if (tabId) {
@@ -85,7 +85,7 @@ class Page {
                 payload: payload,
                 timeout: timeout || 2000
             }
-            api.post('/', data)
+            api.post('', data)
                 .then((result) => {
                     console.log('Navigate:', result.data)
                     resolve(result)
@@ -93,6 +93,25 @@ class Page {
                 .catch(({ response }) => {
                     reject(response)
                 })
+        })
+    }
+
+    executeFunction({ selector, func, args, tabId, timeout = 2000 }) {
+        console.log('TAB ID', tabId)
+        return new Promise((resolve, reject) => {
+            const payload = { selector, func, args, tabId }
+            console.log(payload)
+            const data = {
+                type: "executeFunction",
+                payload: payload,
+                timeout: timeout
+            }
+            api.post('', data)
+                .then((result) => {
+                    console.log('ExecuteFunction:', result.data)
+                    resolve(result)
+                })
+                .catch((e) => reject(e))
         })
     }
 }
