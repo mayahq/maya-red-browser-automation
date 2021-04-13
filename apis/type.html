@@ -12,6 +12,7 @@
       selectorType: { value: "querySelector" },
       tabId: { value: '' },
       payloadTypeTabId: { value: "global" },
+      connection: { value:"", type: "maya-browser-connect" }
     },
     inputs: 1,
     outputs: 1,
@@ -108,6 +109,10 @@
   <div class="form-row">
       <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
       <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-connection"><i class="fa fa-user"></i></span></label>
+    <input type="text" id="node-input-connection">
   </div>
 </script>
 

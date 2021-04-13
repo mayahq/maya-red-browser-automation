@@ -16,7 +16,6 @@
   },
   "node-red": {
     "nodes": {
-      "maya-browser-clear": "apis/clear.js",
       "maya-browser-click": "apis/click.js",
       "maya-browser-connect": "apis/connect.js",
       "maya-browser-find-tab": "apis/findTab.js",
