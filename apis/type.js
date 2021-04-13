@@ -11,6 +11,7 @@ module.exports = function (RED) {
     this.selectorType = config.selectorType;
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
+    this.credentials = RED.nodes.getCredentials(config.connection);
     var node = this;
 
     async function getValue(value, valueType, msg) {
@@ -57,7 +58,7 @@ module.exports = function (RED) {
         opts.tabId = tabId
       }
 
-      const page = new Page()
+      const page = new Page(this.credentials.secretKey)
       page.type(opts)
         .then(async () => {
           node.send(msg);

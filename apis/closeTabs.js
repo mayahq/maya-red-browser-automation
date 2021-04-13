@@ -7,6 +7,7 @@ module.exports = function (RED) {
     this.timeout = config.timeout;
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
+    this.credentials = RED.nodes.getCredentials(config.connection);
     var node = this;
 
     async function getValue(value, valueType, msg) {
@@ -79,7 +80,7 @@ module.exports = function (RED) {
       let tabIds = await getValue(this.tabId, this.payloadTypeTabId, msg);
       const closeOpts = getCloseOpts(tabIds)
 
-      const browser = new Browser()
+      const browser = new Browser(this.credentials.secretKey)
       browser.close({
           timeout: this.timeout,
           closeOpts: closeOpts

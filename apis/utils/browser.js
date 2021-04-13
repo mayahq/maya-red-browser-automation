@@ -2,8 +2,9 @@ const api = require('./api')
 const { v4: uuidv4 } = require("uuid");
 
 class Browser {
-    constructor() {
-        this.id = uuidv4();
+    constructor(secretKey) {
+        this.id = uuidv4()
+        this.secretKey = secretKey
     }
 
     open(url, timeout = 2000) {
@@ -13,7 +14,7 @@ class Browser {
                 payload: { url: url },
                 timeout: timeout,
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     resolve(result.data);
                 })
@@ -31,7 +32,7 @@ class Browser {
                 payload: { query },
                 timeout: timeout
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log("FindTab:", result.data)
                     resolve(result)
@@ -50,7 +51,7 @@ class Browser {
                 payload: { closeOpts },
                 timeout: timeout || 2000
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log('CloseTab:', result.data)
                     resolve(result)

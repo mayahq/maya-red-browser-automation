@@ -10,6 +10,7 @@ module.exports = function (RED) {
     this.selectorType = config.selectorType;
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
+    this.credentials = RED.nodes.getCredentials(config.connection);
 
     var node = this;
 
@@ -46,7 +47,7 @@ module.exports = function (RED) {
 
       var globalContext = this.context().global;
       let maya = globalContext.get("maya");
-      const page = new Page()
+      const page = new Page(this.credentials.secretKey)
       let clickSelector = await getValue(
         this.selector,
         this.payloadTypeSelector,

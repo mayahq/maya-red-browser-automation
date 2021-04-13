@@ -14,6 +14,7 @@ module.exports = function (RED) {
         this.payloadTypeFunc = config.payloadTypeFunc;
         this.args = config.args;
         this.payloadTypeArgs = config.payloadTypeArgs;
+        this.credentials = RED.nodes.getCredentials(config.connection);
 
         var node = this;
 
@@ -97,7 +98,7 @@ module.exports = function (RED) {
             args = cleanArgs(args)
             console.log('tabId', tabId)
 
-            const page = new Page()
+            const page = new Page(this.credentials.secretKey)
             page.executeFunction({
                     selector,
                     func,

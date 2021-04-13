@@ -6,6 +6,7 @@ module.exports = function (RED) {
       RED.nodes.createNode(this, config);
       this.query = config.query;
       this.payloadTypeQuery = config.payloadTypeQuery;
+      this.credentials = RED.nodes.getCredentials(config.connection);
       var node = this;
   
       async function getValue(value, valueType, msg) {
@@ -41,7 +42,7 @@ module.exports = function (RED) {
           query = JSON.stringify(query)
         }
         
-        const browser = new Browser()
+        const browser = new Browser(this.credentials.secretKey)
         browser.findTab({ query })
             .then((result) => {
                 const { data } = result

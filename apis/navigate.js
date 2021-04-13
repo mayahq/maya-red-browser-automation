@@ -8,6 +8,7 @@ module.exports = function (RED) {
       this.tabId = config.tabId;
       this.payloadTypeUrl = config.payloadTypeUrl;
       this.payloadTypeTabId = config.payloadTypeTabId;
+      this.credentials = RED.nodes.getCredentials(config.connection);
       var node = this;
   
       async function getValue(value, valueType, msg) {
@@ -50,7 +51,7 @@ module.exports = function (RED) {
             opts.tabId = tabId
         }
 
-        const page = new Page()
+        const page = new Page(this.credentials.secretKey)
         page.navigate(opts)
             .then(async (result) => {
                 console.log('BRUH')

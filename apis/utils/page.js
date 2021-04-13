@@ -2,8 +2,9 @@ const api = require('./api')
 const { v4: uuidv4 } = require("uuid");
 
 class Page {
-    constructor() {
+    constructor(secretKey) {
         this.id = uuidv4();
+        this.secretKey = secretKey
     }
 
     click({ selectorType, selector, timeout, tabId = null }) {
@@ -17,7 +18,7 @@ class Page {
                 },
                 timeout: timeout || 1000,
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log("Click:", result.data);
                     resolve(result);
@@ -40,7 +41,7 @@ class Page {
                 },
                 timeout: timeout || 1000,
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log("Type:", result.data);
                     resolve(result);
@@ -63,7 +64,7 @@ class Page {
                 },
                 timeout: timeout || 1000,
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log("Prompt:", result.data);
                     resolve(result);
@@ -85,7 +86,7 @@ class Page {
                 payload: payload,
                 timeout: timeout || 2000
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log('Navigate:', result.data)
                     resolve(result)
@@ -106,7 +107,7 @@ class Page {
                 payload: payload,
                 timeout: timeout
             }
-            api.post('', data)
+            api.post(this.secretKey, data)
                 .then((result) => {
                     console.log('ExecuteFunction:', result.data)
                     resolve(result)

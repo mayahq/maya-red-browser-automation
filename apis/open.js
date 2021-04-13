@@ -5,6 +5,7 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, config);
     this.url = config.url;
     this.payloadTypeUrl = config.payloadTypeUrl;
+    this.credentials = RED.nodes.getCredentials(config.connection);
     var node = this;
 
     async function getValue(value, valueType, msg) {
@@ -36,7 +37,7 @@ module.exports = function (RED) {
             ? node.url.toString().substring(0, 15)
             : msg.url.toString().substring(0, 15) + "...",
       });
-      const browser = new Browser()
+      const browser = new Browser(this.credentials.secretKey)
       let url = await getValue(this.url, this.payloadTypeUrl, msg);
       browser
         .open(url)
