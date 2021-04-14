@@ -1,7 +1,7 @@
 {
   "name": "maya-red-browser-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Control your browser with Maya",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
