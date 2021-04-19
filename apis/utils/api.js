@@ -8,7 +8,7 @@ const axiosInstance = axios.create({ baseURL })
 class API {
     static post(secretKey, data) {
         return new Promise((resolve, reject) => {
-            console.log('decrypted request:', data)
+            // console.log('decrypted request:', data)
             const { type, payload, timeout } = data
             const toEncrypt = JSON.stringify({ type, payload })
             const { encryptedData, iv } = encrypt({
@@ -20,11 +20,11 @@ class API {
                 iv: iv,
                 timeout: timeout
             }
-            console.log('encrypted request:', encryptedRequest)
+            // console.log('encrypted request:', encryptedRequest)
 
             axiosInstance.post('', encryptedRequest)
                 .then((response) => {
-                    console.log('encrypted response:', response.data)
+                    // console.log('encrypted response:', response.data)
                     const { data, iv } = response.data
                     const decrypted = decrypt({
                         encryptedText: data,
@@ -32,7 +32,7 @@ class API {
                         iv: iv
                     })
                     response.data = JSON.parse(decrypted)
-                    console.log('decrypted response:', response.data)
+                    // console.log('decrypted response:', response.data)
                     resolve(response)
                 })
                 .catch((e) => reject(e))

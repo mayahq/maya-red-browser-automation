@@ -20,7 +20,7 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log("Click:", result.data);
+                    // console.log("Click:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -43,7 +43,7 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log("Type:", result.data);
+                    // console.log("Type:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -66,7 +66,7 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log("Prompt:", result.data);
+                    // console.log("Prompt:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -88,7 +88,7 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log('Navigate:', result.data)
+                    // console.log('Navigate:', result.data)
                     resolve(result)
                 })
                 .catch(({ response }) => {
@@ -98,7 +98,6 @@ class Page {
     }
 
     executeFunction({ selector, func, args, tabId, timeout = 2000 }) {
-        console.log('TAB ID', tabId)
         return new Promise((resolve, reject) => {
             const payload = { selector, func, args, tabId }
             console.log(payload)
@@ -109,7 +108,25 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log('ExecuteFunction:', result.data)
+                    // console.log('ExecuteFunction:', result.data)
+                    resolve(result)
+                })
+                .catch((e) => reject(e))
+        })
+    }
+
+    scrape({ query, tabId, timeout = 2000 }) {
+        return new Promise((resolve, reject) => {
+            const payload = { query, tabId }
+            console.log(payload)
+            const data = {
+                type: 'scrape',
+                payload: payload,
+                timeout: timeout
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    // console.log('Scrape:', result.data)
                     resolve(result)
                 })
                 .catch((e) => reject(e))

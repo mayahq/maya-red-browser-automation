@@ -25,7 +25,6 @@ class Browser {
     }
 
     findTab({ query, timeout = 2000 }) {
-        console.log('finding tab')
         return new Promise((resolve, reject) => {
             const data = {
                 type: "findTab",
@@ -34,11 +33,11 @@ class Browser {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log("FindTab:", result.data)
+                    // console.log("FindTab:", result.data)
                     resolve(result)
                 })
                 .catch((e) => {
-                    console.log("YIKES", e)
+                    // console.log("YIKES", e)
                     reject(e.response)
                 })
         })
@@ -53,7 +52,7 @@ class Browser {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    console.log('CloseTab:', result.data)
+                    // console.log('CloseTab:', result.data)
                     resolve(result)
                 })
                 .catch((e) => {

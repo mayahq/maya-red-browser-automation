@@ -16,7 +16,6 @@ module.exports = function (RED) {
 
     // Retrieve the config node
     this.on("input", async function (msg) {
-      console.log('CLICKED', node.selector)
       node.status({
         fill: "yellow",
         shape: "dot",
@@ -28,13 +27,11 @@ module.exports = function (RED) {
           if (valueType === "str") {
             resolve(value);
           } else {
-            console.log(value, valueType, this, msg)
             RED.util.evaluateNodeProperty(value, valueType, this, msg, function (
               err,
               res
             ) {
               if (err) {
-                console.log("ohno")
                 node.error(err.msg);
                 reject(err.msg);
               } else {
@@ -58,7 +55,6 @@ module.exports = function (RED) {
         this.payloadTypeTabId,
         msg
       );
-      console.log('TAB ID', tabId);
 
       page
         .click({

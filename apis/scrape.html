@@ -1,0 +1,90 @@
+<script type="text/javascript">
+    RED.nodes.registerType('maya-browser-scrape', {
+      category: 'maya-extension',
+      color: '#8BBDD9', 
+      defaults: {
+        name: { value: '' },
+        query:  { value: "" },
+        payloadTypeQuery: { value:"global" },
+        timeout: { value: 3000 },
+        tabId: { value: '' },
+        payloadTypeTabId: { value: "global" },
+        connection: { value:"", type: "maya-browser-connect" }
+      },
+      inputs:1,
+      outputs:1,
+      icon: "fa-file-code-o.png",
+      label: function() {
+          return this.name || "scrape";
+      },
+      paletteLabel: "scrape",
+      oneditprepare: function()  {
+        if (this.payloadTypeQuery === null) {
+            if (this.query === "") {
+                this.payloadTypeQuery = "date";
+            } else {
+                this.payloadTypeQuery = "str";
+            }
+        } else if (this.payloadTypeQuery === 'string' || this.payloadTypeQuery === 'none') {
+            this.payloadTypeQuery = "str";
+        }
+
+        if (this.payloadTypeTabId === null) {
+            if (this.tabId === "") {
+                this.payloadTypeTabId = "date";
+            } else {
+                this.payloadTypeTabId = "str";
+            }
+        } else if (this.payloadTypeTabId === 'string' || this.payloadTypeTabId === 'none') {
+            this.payloadTypeTabId = "str";
+        }
+
+        $("#node-input-payloadTypeQuery").val(this.payloadTypeQuery);
+        $("#node-input-payloadTypeTabId").val(this.payloadTypeTabId);
+
+        $("#node-input-query").typedInput({
+            default: 'str',
+            typeField: $("#node-input-payloadTypeQuery"),
+            types:['flow','global','msg','str']
+        });
+        $("#node-input-tabId").typedInput({
+            default: 'str',
+            typeField: $("#node-input-payloadTypeTabId"),
+            types:['flow','global','msg','str']
+        });
+
+        $("#node-input-query").typedInput('type',this.payloadTypeQuery);
+        $("#node-input-tabId").typedInput('type', this.payloadTypeTabId);
+      }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="maya-browser-scrape">
+  <div class="form-row">
+    <label for="node-input-query">query</label>
+    <input type="text" id="node-input-query"></input>
+    <input type="hidden" id="node-input-payloadTypeQuery">
+  </div>
+  <div class="form-row">
+      <label for="node-input-timeout"><i class="fa fa-clock"></i> Timeout</label>
+      <input type="text" id="node-input-timeout" style="width:70%;" placeholder="timeout (ms)" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-tabId">tabId</label>
+    <input type="text" id="node-input-tabId"></input>
+    <input type="hidden" id="node-input-payloadTypeTabId">
+  </div>
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-connection"><i class="fa fa-user"></i></span></label>
+    <input type="text" id="node-input-connection">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="maya-browser-scrape">
+  <p> The <code>open</code> node executes the action of navigating to a website/webpage provided with a valid DNS.</p>
+  <p> The node configuration expects a <code>url</code> as a string or a variabled passed through <code>msg</code>, <code>flow</code> or <code>global</code> special variables.</p>
+</script>

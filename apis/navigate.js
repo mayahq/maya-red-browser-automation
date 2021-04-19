@@ -33,7 +33,6 @@ module.exports = function (RED) {
 
       // Retrieve the config node
       this.on("input", async function (msg) {
-        console.log('NAVIGATE', node)
         node.status({
           fill: "yellow",
           shape: "dot",
@@ -54,7 +53,6 @@ module.exports = function (RED) {
         const page = new Page(this.credentials.secretKey)
         page.navigate(opts)
             .then(async (result) => {
-                console.log('BRUH')
                 node.send(msg);
                 node.status({
                     fill: "green",

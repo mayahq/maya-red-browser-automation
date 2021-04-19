@@ -42,7 +42,6 @@ module.exports = function (RED) {
       browser
         .open(url)
         .then((res) => {
-          console.log("did work hehe", res.data);
           msg.openedTab = res.data.tab;
           node.send(msg);
           node.status({
