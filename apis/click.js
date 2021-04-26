@@ -11,6 +11,8 @@ module.exports = function (RED) {
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
     this.credentials = RED.nodes.getCredentials(config.connection);
+    this.index = config.index;
+    this.payloadTypeIndex = config.payloadTypeIndex;
 
     var node = this;
 
@@ -42,24 +44,34 @@ module.exports = function (RED) {
         });
       }
 
-      var globalContext = this.context().global;
-      let maya = globalContext.get("maya");
+      var globalContext = this.context().global
+      let maya = globalContext.get("maya")
       const page = new Page(this.credentials.secretKey)
       let clickSelector = await getValue(
         this.selector,
         this.payloadTypeSelector,
         msg
-      );
+      )
       let tabId = await getValue(
         this.tabId,
         this.payloadTypeTabId,
         msg
-      );
+      )
+      let index = await getValue(
+        this.index,
+        this.payloadTypeIndex,
+        msg
+      )
+      index = parseInt(index)
+      if (!index) {
+        index = 0
+      }
 
       page
         .click({
           selectorType: this.selectorType,
           selector: clickSelector,
+          index: index,
           timeout: this.timeout,
           tabId: tabId
         })

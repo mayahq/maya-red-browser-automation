@@ -12,6 +12,8 @@
       selectorType: { value: "querySelector" },
       tabId: { value: '' },
       payloadTypeTabId: { value: "global" },
+      index: { value: 0 },
+      payloadTypeIndex: { value: "str" },
       connection: { value:"", type: "maya-browser-connect" }
     },
     inputs: 1,
@@ -43,8 +45,20 @@
         this.payloadTypeTabId = "str";
       }
 
+      if (this.payloadTypeIndex === null) {
+        if (this.index === "") {
+            this.payloadTypeIndex = "date";
+        } else {
+            this.payloadTypeIndex = "str";
+        }
+      } else if (this.payloadTypeIndex === 'string' || this.payloadTypeIndex === 'none') {
+          this.payloadTypeIndex = "str";
+      }
+
       $("#node-input-payloadTypeSelector").val(this.payloadTypeSelector);
       $("#node-input-payloadTypeTabId").val(this.payloadTypeTabId);
+      $("#node-input-payloadTypeIndex").val(this.payloadTypeIndex);
+
       $("#node-input-selector").typedInput({
         default: 'str',
         typeField: $("#node-input-payloadTypeSelector"),
@@ -54,7 +68,12 @@
             default: 'str',
             typeField: $("#node-input-payloadTypeTabId"),
             types:['flow','global','msg','str']
-        });
+      });
+      $("#node-input-index").typedInput({
+          default: 'str',
+          typeField: $("#node-input-payloadTypeIndex"),
+          types:['flow','global','msg','str']
+      });
 
       $("#node-input-selector").typedInput('type', this.payloadTypeSelector);
       $("#node-input-tabId").typedInput('type', this.payloadTypeTabId);
@@ -74,8 +93,8 @@
         typeField: $("#node-input-payloadTypeContent"),
         types: ['flow', 'global', 'msg', 'str']
       });
-
       $("#node-input-content").typedInput('type', this.payloadTypeContent);
+      $("#node-input-index").typedInput('type', this.payloadTypeIndex);
     }
   });
 </script>
@@ -91,6 +110,11 @@
     <label for="node-input-selector"><span> selector</span></label>
     <input type="text" id="node-input-selector"></input>
     <input type="hidden" id="node-input-payloadTypeSelector">
+  </div>
+  <div class="form-row">
+    <label for="node-input-index">Element index</label>
+    <input type="text" id="node-input-index"></input>
+    <input type="hidden" id="node-input-payloadTypeIndex">
   </div>
   <div class="form-row">
     <label for="node-input-content"><span> content</span></label>

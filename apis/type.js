@@ -12,6 +12,9 @@ module.exports = function (RED) {
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
     this.credentials = RED.nodes.getCredentials(config.connection);
+    this.index = config.index;
+    this.payloadTypeIndex = config.payloadTypeIndex;
+
     var node = this;
 
     async function getValue(value, valueType, msg) {
@@ -44,10 +47,16 @@ module.exports = function (RED) {
       let selector = await getValue(this.selector, this.payloadTypeSelector, msg);
       let content = await getValue(this.content, this.payloadTypeContent, msg);
       let tabId = await getValue(this.tabId, this.payloadTypeTabId, msg);
+      let index = await getValue(this.index, this.payloadTypeIndex, msg);
+      index = parseInt(index)
+      if (!index) {
+        index = 0
+      }
 
       const opts = {
         selectorType: this.selectorType,
         selector,
+        index,
         content,
         timeout: this.timeout
       }

@@ -7,13 +7,14 @@ class Page {
         this.secretKey = secretKey
     }
 
-    click({ selectorType, selector, timeout, tabId = null }) {
+    click({ selectorType, selector, index = 0, timeout, tabId = null }) {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "click",
                 payload: {
                     selector: selector,
                     selectorType: selectorType || "querySelector",
+                    index: index,
                     tabId: tabId
                 },
                 timeout: timeout || 1000,
@@ -29,12 +30,13 @@ class Page {
         });
     }
 
-    type({ selectorType, selector, content, timeout, tabId }) {
+    type({ selectorType, selector, index = 0, content, timeout, tabId }) {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "type",
                 payload: {
                     selector: selector,
+                    index: index,
                     selectorType: selectorType || "querySelector",
                     text: content,
                     tabId: tabId
