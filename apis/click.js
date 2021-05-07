@@ -2,7 +2,13 @@ const Page = require('./utils/page')
 
 module.exports = function (RED) {
   function MayaBrowserClick(config) {
+    // this.values = {
+    //   dushyant: 'Yadav'
+    // }
+    // console.log('TESTINGGGGGGGGGGG', this)
     RED.nodes.createNode(this, config);
+    this.warn('BRAH')
+    // console.log('TESTING AGAINNNNNN', this)
     
     this.selector = config.selector;
     this.payloadTypeSelector = config.payloadTypeSelector;
@@ -10,9 +16,9 @@ module.exports = function (RED) {
     this.selectorType = config.selectorType;
     this.tabId = config.tabId;
     this.payloadTypeTabId = config.payloadTypeTabId;
-    this.credentials = RED.nodes.getCredentials(config.connection);
     this.index = config.index;
     this.payloadTypeIndex = config.payloadTypeIndex;
+    this.credentials = RED.nodes.getCredentials(config.connection);
 
     var node = this;
 

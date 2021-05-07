@@ -1,0 +1,113 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("navigate", {
+        category: "maya-browser-automation",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            url: {
+                value: ""
+            },
+            payloadTypeurl: {
+                value: "global"
+            },
+            tabId: {
+                value: ""
+            },
+            payloadTypetabId: {
+                value: "global"
+            },
+            connection: {
+                value: "",
+                type: "connect"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "navigate"
+        },
+        paletteLabel: "navigate",
+        exportable: true,
+        oneditprepare: function() {
+
+            if (this.payloadTypeurl === null) {
+                if (this.url === "") {
+                    this.payloadTypeurl = "date"
+                } else {
+                    this.payloadTypeurl = "str"
+                }
+            } else if (this.payloadTypeurl === 'string' || this.payloadTypeurl === 'none') {
+                this.payloadTypeurl = "str"
+            }
+
+            $("#node-input-payloadTypeurl").val(this.payloadTypeurl)
+            $("#node-input-url").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeurl"),
+                types: ["flow", "global", "msg", "str"]
+            })
+            $("#node-input-url").typedInput("type", this.payloadTypeurl)
+
+
+            if (this.payloadTypetabId === null) {
+                if (this.tabId === "") {
+                    this.payloadTypetabId = "date"
+                } else {
+                    this.payloadTypetabId = "str"
+                }
+            } else if (this.payloadTypetabId === 'string' || this.payloadTypetabId === 'none') {
+                this.payloadTypetabId = "str"
+            }
+
+            $("#node-input-payloadTypetabId").val(this.payloadTypetabId)
+            $("#node-input-tabId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypetabId"),
+                types: ["flow", "global", "msg", "str"]
+            })
+            $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
+
+        },
+        oneditsave: function() {
+            var trimFields = []
+
+            trimFields.forEach(function(field) {
+                const selector = `node-input-${field.name}`
+                let v = $(selector).val()
+                v = v.trim()
+                $(selector).val(v)
+            })
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="navigate">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+                        <div class="form-row">
+    <label for="node-input-url">url</label>
+    <input type="text" id="node-input-url"></input>
+            <input type="hidden" id="node-input-payloadTypeurl">
+     
+</div>
+                                <div class="form-row">
+    <label for="node-input-tabId">tabId</label>
+    <input type="text" id="node-input-tabId"></input>
+            <input type="hidden" id="node-input-payloadTypetabId">
+     
+</div>
+                                <div class="form-row">
+    <label for="node-input-connection">connection</label>
+    <input type="text" id="node-input-connection"></input>
+</div>
+                
+    </script>
+
+<script type="text/x-red" data-help-name="navigate">
+    <p> Enter documentation here </p>
+</script>
