@@ -11,7 +11,7 @@ class Browser {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "goto",
-                payload: { url: url },
+                payload: { url: url, timeout },
                 timeout: timeout,
             }
             api.post(this.secretKey, data)
@@ -28,7 +28,7 @@ class Browser {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "findTab",
-                payload: { query },
+                payload: { query, timeout },
                 timeout: timeout
             }
             api.post(this.secretKey, data)
@@ -47,7 +47,7 @@ class Browser {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "closeTabs",
-                payload: { closeOpts },
+                payload: { closeOpts, timeout },
                 timeout: timeout || 2000
             }
             api.post(this.secretKey, data)

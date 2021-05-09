@@ -15,7 +15,8 @@ class Page {
                     selector: selector,
                     selectorType: selectorType || "querySelector",
                     index: index,
-                    tabId: tabId
+                    tabId: tabId,
+                    timeout: timeout || 1000,
                 },
                 timeout: timeout || 1000,
             }
@@ -39,7 +40,8 @@ class Page {
                     index: index,
                     selectorType: selectorType || "querySelector",
                     text: content,
-                    tabId: tabId
+                    tabId: tabId,
+                    timeout: timeout || 1000,
                 },
                 timeout: timeout || 1000,
             }
@@ -63,6 +65,7 @@ class Page {
                     selectorType: selectorType || "querySelector",
                     prompt,
                     event,
+                    timeout: timeout || 1000,
                 },
                 timeout: timeout || 1000,
             }
@@ -77,9 +80,9 @@ class Page {
         });
     }
 
-    navigate({ tabId, url, timeout }) {
+    navigate({ tabId, url, timeout = 2000 }) {
         return new Promise((resolve, reject) => {
-            const payload = { url }
+            const payload = { url, timeout }
             if (tabId) {
                 payload.tabId = tabId
             }
@@ -101,7 +104,7 @@ class Page {
 
     executeFunction({ selector, func, args, tabId, timeout = 2000 }) {
         return new Promise((resolve, reject) => {
-            const payload = { selector, func, args, tabId }
+            const payload = { selector, func, args, tabId, timeout }
             console.log(payload)
             const data = {
                 type: "executeFunction",
@@ -119,7 +122,7 @@ class Page {
 
     scrape({ query, tabId, timeout = 2000 }) {
         return new Promise((resolve, reject) => {
-            const payload = { query, tabId }
+            const payload = { query, tabId, timeout }
             console.log(payload)
             const data = {
                 type: 'scrape',
