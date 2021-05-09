@@ -4,27 +4,31 @@
   "description": "Control your browser with Maya",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mayadev": "node scripts/generateHtml.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mayahq/module-sdk": "^0.1.0",
     "axios": "^0.21.1",
     "open": "^8.0.5",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yargs": "^17.0.0"
   },
+  "nodepath": "./src/nodes",
   "node-red": {
     "nodes": {
-      "maya-browser-click": "apis/click.js",
-      "maya-browser-connect": "apis/connect.js",
-      "maya-browser-find-tab": "apis/findTab.js",
-      "maya-browser-navigate": "apis/navigate.js",
-      "maya-browser-open": "apis/open.js",
-      "maya-browser-type": "apis/type.js",
-      "maya-browser-close-tabs": "apis/closeTabs.js",
-      "maya-browser-execute-function": "apis/executeFunction.js",
-      "maya-browser-scrape": "apis/scrape.js"
+      "click": "src/nodes/click/click.node.js",
+      "close-tabs": "src/nodes/closeTabs/closeTabs.node.js",
+      "connect": "src/nodes/connect/connect.node.js",
+      "execute-function": "src/nodes/executeFunction/executeFunction.node.js",
+      "find-tab": "src/nodes/findTab/findTab.node.js",
+      "navigate": "src/nodes/navigate/navigate.node.js",
+      "open": "src/nodes/open/open.node.js",
+      "scrape": "src/nodes/scrape/scrape.node.js",
+      "type": "src/nodes/type/type.node.js"
     }
   }
 }
