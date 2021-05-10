@@ -2,7 +2,7 @@ const { Node, Schema } = require('@mayahq/module-sdk')
 
 class Connect extends Node {
     static schema = new Schema({
-        name: 'connect',
+        name: 'maya-browser-connect',
         category: 'config',
         isConfig: true,
         exportable: false,
