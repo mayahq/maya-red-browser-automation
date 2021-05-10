@@ -137,6 +137,22 @@ class Page {
                 .catch((e) => reject(e))
         })
     }
+
+    update({ tabId, updates, timeout }) {
+        return new Promise((resolve, reject) => {
+            const payload = { updates, tabId, timeout}
+            const data = {
+                type: 'updateTab',
+                payload,
+                timeout
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    resolve(result.data)
+                })
+                .catch((e) => reject(e))
+        })
+    }
 }
 
 module.exports = Page

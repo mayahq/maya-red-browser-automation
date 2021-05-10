@@ -1,16 +1,10 @@
 <script type='text/javascript'>
-    RED.nodes.registerType("click", {
-        category: "maya browser automation",
+    RED.nodes.registerType("update-tab", {
+        category: "maya-browser-automation",
         color: "#8BBDD9",
         defaults: {
             name: {
                 value: ""
-            },
-            selector: {
-                value: ""
-            },
-            payloadTypeselector: {
-                value: "global"
             },
             timeout: {
                 value: 0
@@ -18,16 +12,16 @@
             payloadTypetimeout: {
                 value: "global"
             },
+            updates: {
+                value: ""
+            },
+            payloadTypeupdates: {
+                value: "global"
+            },
             tabId: {
                 value: ""
             },
             payloadTypetabId: {
-                value: "global"
-            },
-            index: {
-                value: 0
-            },
-            payloadTypeindex: {
                 value: "global"
             },
             connection: {
@@ -39,30 +33,11 @@
         outputs: 1,
         icon: "fa-file-code-o.png",
         label: function() {
-            return this.name || "click"
+            return this.name || "update-tab"
         },
-        paletteLabel: "click",
+        paletteLabel: "update-tab",
         exportable: true,
         oneditprepare: function() {
-
-            if (this.payloadTypeselector === null) {
-                if (this.selector === "") {
-                    this.payloadTypeselector = "date"
-                } else {
-                    this.payloadTypeselector = "str"
-                }
-            } else if (this.payloadTypeselector === 'string' || this.payloadTypeselector === 'none') {
-                this.payloadTypeselector = "str"
-            }
-
-            $("#node-input-payloadTypeselector").val(this.payloadTypeselector)
-            $("#node-input-selector").typedInput({
-                default: "str",
-                typeField: $("#node-input-payloadTypeselector"),
-                types: ["flow", "global", "msg", "str"]
-            })
-            $("#node-input-selector").typedInput("type", this.payloadTypeselector)
-
 
             if (this.payloadTypetimeout === null) {
                 if (this.timeout === "") {
@@ -83,6 +58,25 @@
             $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
 
 
+            if (this.payloadTypeupdates === null) {
+                if (this.updates === "") {
+                    this.payloadTypeupdates = "date"
+                } else {
+                    this.payloadTypeupdates = "str"
+                }
+            } else if (this.payloadTypeupdates === 'string' || this.payloadTypeupdates === 'none') {
+                this.payloadTypeupdates = "str"
+            }
+
+            $("#node-input-payloadTypeupdates").val(this.payloadTypeupdates)
+            $("#node-input-updates").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeupdates"),
+                types: ["flow", "global", "msg", "str"]
+            })
+            $("#node-input-updates").typedInput("type", this.payloadTypeupdates)
+
+
             if (this.payloadTypetabId === null) {
                 if (this.tabId === "") {
                     this.payloadTypetabId = "date"
@@ -101,25 +95,6 @@
             })
             $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
 
-
-            if (this.payloadTypeindex === null) {
-                if (this.index === "") {
-                    this.payloadTypeindex = "date"
-                } else {
-                    this.payloadTypeindex = "num"
-                }
-            } else if (this.payloadTypeindex === 'string' || this.payloadTypeindex === 'none') {
-                this.payloadTypeindex = "num"
-            }
-
-            $("#node-input-payloadTypeindex").val(this.payloadTypeindex)
-            $("#node-input-index").typedInput({
-                default: "num",
-                typeField: $("#node-input-payloadTypeindex"),
-                types: ["flow", "global", "msg", "num"]
-            })
-            $("#node-input-index").typedInput("type", this.payloadTypeindex)
-
         },
         oneditsave: function() {
             var trimFields = []
@@ -134,21 +109,21 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="click">
+<script type="text/x-red" data-template-name="update-tab">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
                         <div class="form-row">
-    <label for="node-input-selector">selector</label>
-    <input type="text" id="node-input-selector"></input>
-            <input type="hidden" id="node-input-payloadTypeselector">
-     
-</div>
-                                <div class="form-row">
     <label for="node-input-timeout">timeout</label>
     <input type="text" id="node-input-timeout"></input>
     <input type="hidden" id="node-input-payloadTypetimeout">
+</div>
+                                <div class="form-row">
+    <label for="node-input-updates">updates</label>
+    <input type="text" id="node-input-updates"></input>
+            <input type="hidden" id="node-input-payloadTypeupdates">
+     
 </div>
                                 <div class="form-row">
     <label for="node-input-tabId">tabId</label>
@@ -157,17 +132,12 @@
      
 </div>
                                 <div class="form-row">
-    <label for="node-input-index">index</label>
-    <input type="text" id="node-input-index"></input>
-    <input type="hidden" id="node-input-payloadTypeindex">
-</div>
-                                <div class="form-row">
     <label for="node-input-connection">connection</label>
     <input type="text" id="node-input-connection"></input>
 </div>
                 
     </script>
 
-<script type="text/x-red" data-help-name="click">
+<script type="text/x-red" data-help-name="update-tab">
     <p> Enter documentation here </p>
 </script>

@@ -18,6 +18,7 @@
     "yargs": "^17.0.0"
   },
   "nodepath": "./src/nodes",
+  "nodeRedModuleName": "maya-browser-automation",
   "node-red": {
     "nodes": {
       "click": "src/nodes/click/click.node.js",
@@ -28,7 +29,8 @@
       "navigate": "src/nodes/navigate/navigate.node.js",
       "open": "src/nodes/open/open.node.js",
       "scrape": "src/nodes/scrape/scrape.node.js",
-      "type": "src/nodes/type/type.node.js"
+      "type": "src/nodes/type/type.node.js",
+      "update-tab": "src/nodes/updateTab/updateTab.node.js"
     }
   }
 }
