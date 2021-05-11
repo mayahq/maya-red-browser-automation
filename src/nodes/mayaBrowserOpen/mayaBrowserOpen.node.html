@@ -1,0 +1,82 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("maya-browser-open", {
+        category: "Maya Browser Automation",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            url: {
+                value: ""
+            },
+            payloadTypeurl: {
+                value: "global"
+            },
+            connection: {
+                value: "",
+                type: "maya-browser-connect"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Open"
+        },
+        paletteLabel: "Open",
+        exportable: true,
+        oneditprepare: function() {
+
+            if (this.payloadTypeurl === null) {
+                if (this.url === "") {
+                    this.payloadTypeurl = "date"
+                } else {
+                    this.payloadTypeurl = "str"
+                }
+            } else if (this.payloadTypeurl === 'string' || this.payloadTypeurl === 'none') {
+                this.payloadTypeurl = "str"
+            }
+
+            $("#node-input-payloadTypeurl").val(this.payloadTypeurl)
+            $("#node-input-url").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeurl"),
+                types: ["flow", "global", "msg", "str"]
+            })
+            $("#node-input-url").typedInput("type", this.payloadTypeurl)
+
+        },
+        oneditsave: function() {
+            var trimFields = []
+
+            trimFields.forEach(function(field) {
+                const selector = `node-input-${field.name}`
+                let v = $(selector).val()
+                v = v.trim()
+                $(selector).val(v)
+            })
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="maya-browser-open">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+                        <div class="form-row">
+    <label for="node-input-url">url</label>
+    <input type="text" id="node-input-url"></input>
+            <input type="hidden" id="node-input-payloadTypeurl">
+     
+</div>
+                                <div class="form-row">
+    <label for="node-input-connection">connection</label>
+    <input type="text" id="node-input-connection"></input>
+</div>
+                
+    </script>
+
+<script type="text/x-red" data-help-name="maya-browser-open">
+    <p> Enter documentation here </p>
+</script>

@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mayahq/module-sdk": "^0.1.0",
+    "@mayahq/module-sdk": "^0.1.1",
     "axios": "^0.21.1",
     "open": "^8.0.5",
     "uuid": "^8.3.2",
@@ -21,16 +21,16 @@
   "nodeRedModuleName": "maya-browser-automation",
   "node-red": {
     "nodes": {
-      "click": "src/nodes/click/click.node.js",
-      "close-tabs": "src/nodes/closeTabs/closeTabs.node.js",
-      "connect": "src/nodes/connect/connect.node.js",
-      "execute-function": "src/nodes/executeFunction/executeFunction.node.js",
-      "find-tab": "src/nodes/findTab/findTab.node.js",
-      "navigate": "src/nodes/navigate/navigate.node.js",
-      "open": "src/nodes/open/open.node.js",
-      "scrape": "src/nodes/scrape/scrape.node.js",
-      "type": "src/nodes/type/type.node.js",
-      "update-tab": "src/nodes/updateTab/updateTab.node.js"
+      "maya-browser-click": "src/nodes/mayaBrowserClick/mayaBrowserClick.node.js",
+      "maya-browser-close-tabs": "src/nodes/mayaBrowserCloseTabs/mayaBrowserCloseTabs.node.js",
+      "maya-browser-connect": "src/nodes/mayaBrowserConnect/mayaBrowserConnect.node.js",
+      "maya-browser-execute-function": "src/nodes/mayaBrowserExecuteFunction/mayaBrowserExecuteFunction.node.js",
+      "maya-browser-find-tab": "src/nodes/mayaBrowserFindTab/mayaBrowserFindTab.node.js",
+      "maya-browser-navigate": "src/nodes/mayaBrowserNavigate/mayaBrowserNavigate.node.js",
+      "maya-browser-open": "src/nodes/mayaBrowserOpen/mayaBrowserOpen.node.js",
+      "maya-browser-scrape": "src/nodes/mayaBrowserScrape/mayaBrowserScrape.node.js",
+      "maya-browser-type": "src/nodes/mayaBrowserType/mayaBrowserType.node.js",
+      "maya-browser-update-tab": "src/nodes/mayaBrowserUpdateTab/mayaBrowserUpdateTab.node.js"
     }
   }
 }
