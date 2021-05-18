@@ -10,6 +10,7 @@ class Navigate extends Node {
         fields: {
             url: String,
             tabId: String,
+            timeout: Number,
             connection: Connect
         }
     })
