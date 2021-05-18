@@ -18,6 +18,12 @@
             payloadTypetabId: {
                 value: "global"
             },
+            timeout: {
+                value: 0
+            },
+            payloadTypetimeout: {
+                value: "global"
+            },
             connection: {
                 value: "",
                 type: "maya-browser-connect"
@@ -70,6 +76,25 @@
             })
             $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
 
+
+            if (this.payloadTypetimeout === null) {
+                if (this.timeout === "") {
+                    this.payloadTypetimeout = "date"
+                } else {
+                    this.payloadTypetimeout = "num"
+                }
+            } else if (this.payloadTypetimeout === 'string' || this.payloadTypetimeout === 'none') {
+                this.payloadTypetimeout = "num"
+            }
+
+            $("#node-input-payloadTypetimeout").val(this.payloadTypetimeout)
+            $("#node-input-timeout").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypetimeout"),
+                types: ["flow", "global", "msg", "num"]
+            })
+            $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
+
         },
         oneditsave: function() {
             var trimFields = []
@@ -100,6 +125,11 @@
     <input type="text" id="node-input-tabId"></input>
             <input type="hidden" id="node-input-payloadTypetabId">
      
+</div>
+                                <div class="form-row">
+    <label for="node-input-timeout">timeout</label>
+    <input type="text" id="node-input-timeout"></input>
+    <input type="hidden" id="node-input-payloadTypetimeout">
 </div>
                                 <div class="form-row">
     <label for="node-input-connection">connection</label>
