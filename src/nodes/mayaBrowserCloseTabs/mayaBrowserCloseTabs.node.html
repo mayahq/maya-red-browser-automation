@@ -6,19 +6,25 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
+            action: {
+                value: "Close"
+            },
             timeout: {
-                value: 0
+                value: "2000"
             },
             payloadTypetimeout: {
-                value: "global"
+                value: "num"
             },
             tabIds: {
                 value: ""
             },
             payloadTypetabIds: {
-                value: "global"
+                value: "json"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -32,6 +38,11 @@
         paletteLabel: "Close Tabs",
         exportable: true,
         oneditprepare: function() {
+            const actionselectFieldValues = ["Close", "Exclude"]
+            actionselectFieldValues.forEach((val) => {
+                $("#node-input-action").append($("<option></option>").attr("value", val).text(val))
+            })
+            $("#node-input-action").val(this.action)
 
             if (this.payloadTypetimeout === null) {
                 if (this.timeout === "") {
@@ -47,65 +58,63 @@
             $("#node-input-timeout").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypetimeout"),
-                types: ["flow", "global", "msg", "num"]
+                types: ["msg", "global", "flow", "num"]
             })
             $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
-
 
             if (this.payloadTypetabIds === null) {
                 if (this.tabIds === "") {
                     this.payloadTypetabIds = "date"
                 } else {
-                    this.payloadTypetabIds = "str"
+                    this.payloadTypetabIds = "json"
                 }
             } else if (this.payloadTypetabIds === 'string' || this.payloadTypetabIds === 'none') {
-                this.payloadTypetabIds = "str"
+                this.payloadTypetabIds = "json"
             }
 
             $("#node-input-payloadTypetabIds").val(this.payloadTypetabIds)
             $("#node-input-tabIds").typedInput({
-                default: "str",
+                default: "json",
                 typeField: $("#node-input-payloadTypetabIds"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "json"]
             })
             $("#node-input-tabIds").typedInput("type", this.payloadTypetabIds)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-close-tabs">
+<script type="text/html" data-template-name="maya-browser-close-tabs">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-timeout">timeout</label>
-    <input type="text" id="node-input-timeout"></input>
-    <input type="hidden" id="node-input-payloadTypetimeout">
-</div>
-                                <div class="form-row">
-    <label for="node-input-tabIds">tabIds</label>
-    <input type="text" id="node-input-tabIds"></input>
-            <input type="hidden" id="node-input-payloadTypetabIds">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout">timeout</label>
+        <input type="text" id="node-input-timeout"></input>
+        <input type="hidden" id="node-input-payloadTypetimeout">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tabIds">tabIds</label>
+        <input type="text" id="node-input-tabIds"></input>
+        <input type="hidden" id="node-input-payloadTypetabIds">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-close-tabs">
     <p> Enter documentation here </p>

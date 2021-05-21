@@ -1,6 +1,7 @@
 const {
     Node,
-    Schema
+    Schema,
+    fields
 } = require('@mayahq/module-sdk')
 const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
@@ -12,19 +13,17 @@ class UpdateTab extends Node {
         label: 'Update Tab',
         isConfig: false,
         fields: {
-            timeout: Number,
-            updates: String,
-            tabId: String,
-            connection: Connect
+            timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
+            updates: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
+            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'] }),
+            session: new fields.ConfigNode({ type: Connect })
         },
 
     })
 
     getTabIds(tabIdVal) {
         try {
-            if (typeof tabIdVal === 'string') {
-                return JSON.parse(tabIdVal)
-            } else if (Array.isArray(tabIdVal)) {
+            if (Array.isArray(tabIdVal)) {
                 return tabIdVal.map((val) => {
                     if (typeof val === 'string' || typeof val === 'number') {
                         return val
@@ -34,8 +33,7 @@ class UpdateTab extends Node {
                         throw new Error('')
                     }
                 })
-                return tabIdVal
-            } else if (typeof tabIdVal === 'number') {
+            } else if (typeof tabIdVal === 'number' || typeof tabIdVal === 'string') {
                 return tabIdVal
             } else {
                 throw new Error('')
@@ -53,7 +51,10 @@ class UpdateTab extends Node {
     }
 
     async onMessage(msg, vals) {
-        const { secretKey } = this.credentials.connection
+        if (msg.isError) {
+            return msg
+        }
+        const { secretKey } = this.credentials.session
         const page = new Page(secretKey)
 
         try {

@@ -1,6 +1,6 @@
 {
   "name": "maya-red-browser-automation",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Control your browser with Maya",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mayahq/module-sdk": "^0.1.1",
+    "@mayahq/module-sdk": "^0.2.3",
     "axios": "^0.21.1",
     "open": "^8.0.5",
     "uuid": "^8.3.2",
@@ -26,7 +26,6 @@
       "maya-browser-connect": "src/nodes/mayaBrowserConnect/mayaBrowserConnect.node.js",
       "maya-browser-execute-function": "src/nodes/mayaBrowserExecuteFunction/mayaBrowserExecuteFunction.node.js",
       "maya-browser-find-tab": "src/nodes/mayaBrowserFindTab/mayaBrowserFindTab.node.js",
-      "maya-browser-navigate": "src/nodes/mayaBrowserNavigate/mayaBrowserNavigate.node.js",
       "maya-browser-open": "src/nodes/mayaBrowserOpen/mayaBrowserOpen.node.js",
       "maya-browser-scrape": "src/nodes/mayaBrowserScrape/mayaBrowserScrape.node.js",
       "maya-browser-type": "src/nodes/mayaBrowserType/mayaBrowserType.node.js",

@@ -1,4 +1,8 @@
-const { Node, Schema } = require('@mayahq/module-sdk')
+const { 
+    Node,
+    Schema,
+    fields
+} = require('@mayahq/module-sdk')
 const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
@@ -8,52 +12,44 @@ class ExecuteFunction extends Node {
         category: 'Maya Browser Automation',
         label: 'Execute Function',
         fields: {
-            selector: String,
-            timeout: Number,
-            tabId: String,
-            func: String,
-            args: String,
-            connection: Connect
+            selector: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'] }),
+            timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000 }),
+            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'] }),
+            func: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'], displayName: 'function' }),
+            args: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'], displayName: 'arguments' }),
+            session: new fields.ConfigNode({ type: Connect })
         }
     })
 
     cleanArgs(args) {
-        let error = false
-        if (typeof args === 'string') {
-            try {
-                const structuredArgs = JSON.parse(args)
-                return structuredArgs
-            } catch (e) {
-                error = true
-            }
-        } else if (typeof args === 'object' && Array.isArray(args)) {
-            return args
-        } else {
-            error = true
+        if (!Array.isArray(args)) {
+            throw new Error('Invalid argument spec, not an array')
         }
 
-        if (error) {
-            node.status({
-                fill: "red",
-                shape: "ring",
-                text: "Unsupported argument format",
-            });
-            throw new Error("Unsupported argument format")
-        }
+        return args
     }
 
     async onMessage(msg, vals) {
-        const { secretKey } = this.credentials.connection
+        if (msg.isError) {
+            return msg
+        }
+        const { secretKey } = this.credentials.session
         const page = new Page(secretKey)
         this.setStatus('PROGRESS', 'Executing...')
-        
-        const args = this.cleanArgs(vals.args)
 
         try {
-            await page.executeFunction({ ...vals, args })
-            this.setStatus('SUCCESS', 'Function executed successfully.')
+            const args = this.cleanArgs(vals.args)
+            const res = await page.executeFunction({ ...vals, args })
+            if (res.data.status === 'ERROR') {
+                const error = res.data.error
+                this.setStatus('ERROR', error.description)
+                msg.error = error
+                msg.isError = true
+            } else {
+                this.setStatus('SUCCESS', 'Function executed successfully')
+            }
         } catch (e) {
-            this.setStatus('ERROR', e.toString().substring(0, 10) + '...')
+            this.setStatus('ERROR', e.toString().substring(0, 50) + '...')
             msg.error = e
             msg.isError = true
         }

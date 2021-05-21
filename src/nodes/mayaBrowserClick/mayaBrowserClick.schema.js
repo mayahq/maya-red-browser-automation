@@ -1,4 +1,8 @@
-const { Node, Schema } = require('@mayahq/module-sdk')
+const { 
+    Node,
+    Schema,
+    fields
+} = require('@mayahq/module-sdk')
 const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
@@ -8,27 +12,39 @@ class Click extends Node {
         category: 'Maya Browser Automation',
         label: 'Click',
         fields: {
-            selector: String,
-            timeout: Number,
-            tabId: String,
-            index: Number,
-            connection: Connect
+            selector: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
+            timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
+            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
+            index: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 0}),
+            session: new fields.ConfigNode({ type: Connect })
         }
     })
 
     async onMessage(msg, vals) {
-        const { secretKey } = this.credentials.connection
+        if (msg.isError) {
+            return msg
+        }
+        const { secretKey } = this.credentials.session
         const page = new Page(secretKey)
-        
+        this.setStatus('PROGRESS', 'Clicking...')
+
         try {
-            await page.click({
+            const res = await page.click({
                 selector: vals.selector,
                 index: vals.index,
                 timeout: vals.timeout,
                 tabId: vals.tabId
             })
+            if (res.data.status === 'ERROR') {
+                const error = res.data.error
+                this.setStatus('ERROR', error.description)
+                msg.error = error
+                msg.isError = true
+            } else {
+                this.setStatus('SUCCESS', 'Clicked successfully')
+            }
         } catch (e) {
-            this.setStatus('ERROR', e.toString().substring(0, 10) + '...')
+            this.setStatus('ERROR', e.toString().substring(0, 50) + '...')
             msg.error = e
             msg.isError = true
         }

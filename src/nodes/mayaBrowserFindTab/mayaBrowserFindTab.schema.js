@@ -1,4 +1,4 @@
-const { Node, Schema } = require('@mayahq/module-sdk')
+const { Node, Schema, fields } = require('@mayahq/module-sdk')
 const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
@@ -8,21 +8,23 @@ class FindTab extends Node {
         category: 'Maya Browser Automation',
         label: 'Find Tab',
         fields: {
-            query: String,
-            connection: Connect
+            query: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
+            session: new fields.ConfigNode({ type: Connect })
         }
     })
 
     async onMessage(msg, vals) {
-        console.log(this.credentials)
-        const { secretKey } = this.credentials.connection
+        if (msg.isError) {
+            return msg
+        }
+        const { secretKey } = this.credentials.session
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', 'Finding tab...')
 
         try {
             const result = await browser.findTab({ query: vals.query })
             const { data } = result
-            msg.tabsFound = data.tabs
+            msg.tabs = data.tabs 
             this.setStatus('SUCCESS', 'Found')
         } catch (e) {
             this.setStatus('ERROR', e.toString().substring(0, 10) + '...')

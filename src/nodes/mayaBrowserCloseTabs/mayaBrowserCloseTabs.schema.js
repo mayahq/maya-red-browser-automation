@@ -1,4 +1,8 @@
-const { Node, Schema } = require('@mayahq/module-sdk')
+const { 
+    Node,
+    Schema,
+    fields
+} = require('@mayahq/module-sdk')
 const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
@@ -8,64 +12,51 @@ class CloseTabs extends Node {
         category: 'Maya Browser Automation',
         label: 'Close Tabs',
         fields: {
-            timeout: Number,
-            tabIds: String,
-            connection: Connect
+            action: new fields.Select({ options: ['Close', 'Exclude'] }),
+            timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000 }),
+            tabIds: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
+            session: new fields.ConfigNode({ type: Connect })
         }
     })
 
-    getCloseOpts(tabIds) {
+    getTabIds(tabIds) {
         let tabIdList
-        if (typeof tabIds === 'string') {
-            tabIdList = tabIds.split(',')
-        } else if (typeof tabIds === 'object' && Array.isArray(tabIds)) {
-            tabIdList = tabIds
-        } else {
-          if (typeof tabIds === 'object') {
-            if ((tabIds.close && !tabIds.keep) ||
-                (!tabIds.close && tabIds.keep)) {
-              return tabIds
-            } else {
-              delete tabIds['close']
-              return tabIds
-            }
-          }
-        }
-
-        let tabIdOpts = {}
-        if (tabIdList.some((id) => parseInt(id) < 0)) {
-            tabIdOpts.keep = []
-            tabIds.forEach((id) => {
-                const numId = parseInt(id)
-                if (numId < 0) {
-                    tabIdOpts.keep.push(numId * -1)
-                }
-            })
-        } else {
-            tabIdOpts.close = []
-            tabIds.forEach((id) => {
-                const numId = parseInt(id)
-                if (numId > 0) {
-                    tabIdOpts.close.push(numId)
+        if (Array.isArray(tabIds)) {
+            tabIds.forEach((ele) => {
+                if (typeof ele === 'string' || typeof ele === 'number') {
+                    tabIdList.push(ele)
+                } else if (ele.id) {
+                    tabIdList.push(ele.id)
+                } else {
+                    throw new Error('Invalid tabId specification')
                 }
             })
         }
 
-        return tabIdOpts
+        return tabIdList
     }
 
     async onMessage(msg, vals) {
-        const { secretKey } = this.credentials.connection
+        if (msg.isError) {
+            return msg
+        }
+        const { secretKey } = this.credentials.session
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', `Closing tabs...`)
 
-        const closeOpts = this.getCloseOpts(vals.tabIds)
+        const tabIds = this.getTabIds(vals.tabIds)
+        const closeOpts = { close: [], keep: [] }
+        if (this.action === 'Close') {
+            closeOpts.close = tabIds
+        } else {
+            closeOpts.keep = tabIds
+        }
 
         try {
             await browser.close({ timeout: vals.timeout, closeOpts })
             this.setStatus('SUCCESS', 'Closed tabs.')
         } catch (e) {
-            this.setStatus('ERROR', e.toString().substring(0, 10) + '...')
+            this.setStatus('ERROR', e.toString().substring(0, 50) + '...')
             msg.error = e
             msg.isError = true
         }

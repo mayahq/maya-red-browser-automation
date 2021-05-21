@@ -6,13 +6,16 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
             query: {
                 value: ""
             },
             payloadTypequery: {
-                value: "global"
+                value: "json"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -26,56 +29,49 @@
         paletteLabel: "Find Tab",
         exportable: true,
         oneditprepare: function() {
-
             if (this.payloadTypequery === null) {
                 if (this.query === "") {
                     this.payloadTypequery = "date"
                 } else {
-                    this.payloadTypequery = "str"
+                    this.payloadTypequery = "json"
                 }
             } else if (this.payloadTypequery === 'string' || this.payloadTypequery === 'none') {
-                this.payloadTypequery = "str"
+                this.payloadTypequery = "json"
             }
 
             $("#node-input-payloadTypequery").val(this.payloadTypequery)
             $("#node-input-query").typedInput({
-                default: "str",
+                default: "json",
                 typeField: $("#node-input-payloadTypequery"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "json"]
             })
             $("#node-input-query").typedInput("type", this.payloadTypequery)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-find-tab">
+<script type="text/html" data-template-name="maya-browser-find-tab">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-query">query</label>
-    <input type="text" id="node-input-query"></input>
-            <input type="hidden" id="node-input-payloadTypequery">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-query">query</label>
+        <input type="text" id="node-input-query"></input>
+        <input type="hidden" id="node-input-payloadTypequery">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-find-tab">
     <p> Enter documentation here </p>

@@ -6,11 +6,14 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
         },
         credentials: {
             secretKey: {
                 type: String
-            }
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -21,33 +24,25 @@
         paletteLabel: "Browser Connection",
         exportable: false,
         oneditprepare: function() {},
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-config-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-connect">
+<script type="text/html" data-template-name="maya-browser-connect">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-        
-                                        <div class="form-row">
-    <label for="node-config-input-secretKey">secretKey</label>
-    <input type="password" id="node-config-input-secretKey"></input>
-     
-</div> 
-              
-         
-    </script>
+    <div class="form-row">
+        <label for="node-config-input-secretKey">secretKey</label>
+        <input type="password" id="node-config-input-secretKey"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-connect">
     <p> Enter documentation here </p>

@@ -1,4 +1,4 @@
-const { Node, Schema } = require('@mayahq/module-sdk')
+const { Node, Schema, fields } = require('@mayahq/module-sdk')
 
 class Connect extends Node {
     static schema = new Schema({
@@ -10,7 +10,7 @@ class Connect extends Node {
         fields: {},
         redOpts: {
             credentials: {
-                secretKey: { type: String }
+                secretKey: new fields.Credential({ type: 'str', password: true })
             }
         }
     })

@@ -6,25 +6,28 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
             query: {
                 value: ""
             },
             payloadTypequery: {
-                value: "global"
+                value: "json"
             },
             timeout: {
-                value: 0
+                value: "2000"
             },
             payloadTypetimeout: {
-                value: "global"
+                value: "num"
             },
             tabId: {
                 value: ""
             },
             payloadTypetabId: {
-                value: "global"
+                value: "str"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -38,25 +41,23 @@
         paletteLabel: "Scrape",
         exportable: true,
         oneditprepare: function() {
-
             if (this.payloadTypequery === null) {
                 if (this.query === "") {
                     this.payloadTypequery = "date"
                 } else {
-                    this.payloadTypequery = "str"
+                    this.payloadTypequery = "json"
                 }
             } else if (this.payloadTypequery === 'string' || this.payloadTypequery === 'none') {
-                this.payloadTypequery = "str"
+                this.payloadTypequery = "json"
             }
 
             $("#node-input-payloadTypequery").val(this.payloadTypequery)
             $("#node-input-query").typedInput({
-                default: "str",
+                default: "json",
                 typeField: $("#node-input-payloadTypequery"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "flow", "global", "json"]
             })
             $("#node-input-query").typedInput("type", this.payloadTypequery)
-
 
             if (this.payloadTypetimeout === null) {
                 if (this.timeout === "") {
@@ -72,10 +73,9 @@
             $("#node-input-timeout").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypetimeout"),
-                types: ["flow", "global", "msg", "num"]
+                types: ["msg", "global", "flow", "num"]
             })
             $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
-
 
             if (this.payloadTypetabId === null) {
                 if (this.tabId === "") {
@@ -91,52 +91,45 @@
             $("#node-input-tabId").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypetabId"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-scrape">
+<script type="text/html" data-template-name="maya-browser-scrape">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-query">query</label>
-    <input type="text" id="node-input-query"></input>
-            <input type="hidden" id="node-input-payloadTypequery">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-timeout">timeout</label>
-    <input type="text" id="node-input-timeout"></input>
-    <input type="hidden" id="node-input-payloadTypetimeout">
-</div>
-                                <div class="form-row">
-    <label for="node-input-tabId">tabId</label>
-    <input type="text" id="node-input-tabId"></input>
-            <input type="hidden" id="node-input-payloadTypetabId">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-query">query</label>
+        <input type="text" id="node-input-query"></input>
+        <input type="hidden" id="node-input-payloadTypequery">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout">timeout</label>
+        <input type="text" id="node-input-timeout"></input>
+        <input type="hidden" id="node-input-payloadTypetimeout">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tabId">tabId</label>
+        <input type="text" id="node-input-tabId"></input>
+        <input type="hidden" id="node-input-payloadTypetabId">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-scrape">
     <p> Enter documentation here </p>

@@ -6,37 +6,40 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
             selector: {
                 value: ""
             },
             payloadTypeselector: {
-                value: "global"
+                value: "str"
             },
             timeout: {
-                value: 0
+                value: "2000"
             },
             payloadTypetimeout: {
-                value: "global"
+                value: "num"
             },
             tabId: {
                 value: ""
             },
             payloadTypetabId: {
-                value: "global"
+                value: "str"
             },
             func: {
                 value: ""
             },
             payloadTypefunc: {
-                value: "global"
+                value: "str"
             },
             args: {
                 value: ""
             },
             payloadTypeargs: {
-                value: "global"
+                value: "json"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -50,7 +53,6 @@
         paletteLabel: "Execute Function",
         exportable: true,
         oneditprepare: function() {
-
             if (this.payloadTypeselector === null) {
                 if (this.selector === "") {
                     this.payloadTypeselector = "date"
@@ -65,10 +67,9 @@
             $("#node-input-selector").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypeselector"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-selector").typedInput("type", this.payloadTypeselector)
-
 
             if (this.payloadTypetimeout === null) {
                 if (this.timeout === "") {
@@ -84,10 +85,9 @@
             $("#node-input-timeout").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypetimeout"),
-                types: ["flow", "global", "msg", "num"]
+                types: ["msg", "global", "flow", "num"]
             })
             $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
-
 
             if (this.payloadTypetabId === null) {
                 if (this.tabId === "") {
@@ -103,10 +103,9 @@
             $("#node-input-tabId").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypetabId"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
-
 
             if (this.payloadTypefunc === null) {
                 if (this.func === "") {
@@ -122,83 +121,73 @@
             $("#node-input-func").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypefunc"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-func").typedInput("type", this.payloadTypefunc)
-
 
             if (this.payloadTypeargs === null) {
                 if (this.args === "") {
                     this.payloadTypeargs = "date"
                 } else {
-                    this.payloadTypeargs = "str"
+                    this.payloadTypeargs = "json"
                 }
             } else if (this.payloadTypeargs === 'string' || this.payloadTypeargs === 'none') {
-                this.payloadTypeargs = "str"
+                this.payloadTypeargs = "json"
             }
 
             $("#node-input-payloadTypeargs").val(this.payloadTypeargs)
             $("#node-input-args").typedInput({
-                default: "str",
+                default: "json",
                 typeField: $("#node-input-payloadTypeargs"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "json"]
             })
             $("#node-input-args").typedInput("type", this.payloadTypeargs)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-execute-function">
+<script type="text/html" data-template-name="maya-browser-execute-function">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-selector">selector</label>
-    <input type="text" id="node-input-selector"></input>
-            <input type="hidden" id="node-input-payloadTypeselector">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-timeout">timeout</label>
-    <input type="text" id="node-input-timeout"></input>
-    <input type="hidden" id="node-input-payloadTypetimeout">
-</div>
-                                <div class="form-row">
-    <label for="node-input-tabId">tabId</label>
-    <input type="text" id="node-input-tabId"></input>
-            <input type="hidden" id="node-input-payloadTypetabId">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-func">func</label>
-    <input type="text" id="node-input-func"></input>
-            <input type="hidden" id="node-input-payloadTypefunc">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-args">args</label>
-    <input type="text" id="node-input-args"></input>
-            <input type="hidden" id="node-input-payloadTypeargs">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-selector">selector</label>
+        <input type="text" id="node-input-selector"></input>
+        <input type="hidden" id="node-input-payloadTypeselector">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout">timeout</label>
+        <input type="text" id="node-input-timeout"></input>
+        <input type="hidden" id="node-input-payloadTypetimeout">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tabId">tabId</label>
+        <input type="text" id="node-input-tabId"></input>
+        <input type="hidden" id="node-input-payloadTypetabId">
+    </div>
+    <div class="form-row">
+        <label for="node-input-func">function</label>
+        <input type="text" id="node-input-func"></input>
+        <input type="hidden" id="node-input-payloadTypefunc">
+    </div>
+    <div class="form-row">
+        <label for="node-input-args">arguments</label>
+        <input type="text" id="node-input-args"></input>
+        <input type="hidden" id="node-input-payloadTypeargs">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-execute-function">
     <p> Enter documentation here </p>

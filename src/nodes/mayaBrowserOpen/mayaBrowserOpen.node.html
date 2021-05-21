@@ -6,13 +6,16 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
             url: {
                 value: ""
             },
             payloadTypeurl: {
-                value: "global"
+                value: "str"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -26,7 +29,6 @@
         paletteLabel: "Open",
         exportable: true,
         oneditprepare: function() {
-
             if (this.payloadTypeurl === null) {
                 if (this.url === "") {
                     this.payloadTypeurl = "date"
@@ -41,41 +43,35 @@
             $("#node-input-url").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypeurl"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "flow", "global", "str"]
             })
             $("#node-input-url").typedInput("type", this.payloadTypeurl)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-open">
+<script type="text/html" data-template-name="maya-browser-open">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-url">url</label>
-    <input type="text" id="node-input-url"></input>
-            <input type="hidden" id="node-input-payloadTypeurl">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-url">url</label>
+        <input type="text" id="node-input-url"></input>
+        <input type="hidden" id="node-input-payloadTypeurl">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-open">
     <p> Enter documentation here </p>

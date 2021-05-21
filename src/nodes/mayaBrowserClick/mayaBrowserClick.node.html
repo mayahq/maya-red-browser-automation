@@ -6,31 +6,34 @@
             name: {
                 value: ""
             },
+            isProfileConfigNode: {
+                value: false
+            },
             selector: {
                 value: ""
             },
             payloadTypeselector: {
-                value: "global"
+                value: "str"
             },
             timeout: {
-                value: 0
+                value: "2000"
             },
             payloadTypetimeout: {
-                value: "global"
+                value: "num"
             },
             tabId: {
                 value: ""
             },
             payloadTypetabId: {
-                value: "global"
+                value: "str"
             },
             index: {
-                value: 0
+                value: "0"
             },
             payloadTypeindex: {
-                value: "global"
+                value: "num"
             },
-            connection: {
+            session: {
                 value: "",
                 type: "maya-browser-connect"
             },
@@ -44,7 +47,6 @@
         paletteLabel: "Click",
         exportable: true,
         oneditprepare: function() {
-
             if (this.payloadTypeselector === null) {
                 if (this.selector === "") {
                     this.payloadTypeselector = "date"
@@ -59,10 +61,9 @@
             $("#node-input-selector").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypeselector"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-selector").typedInput("type", this.payloadTypeselector)
-
 
             if (this.payloadTypetimeout === null) {
                 if (this.timeout === "") {
@@ -78,10 +79,9 @@
             $("#node-input-timeout").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypetimeout"),
-                types: ["flow", "global", "msg", "num"]
+                types: ["msg", "global", "flow", "num"]
             })
             $("#node-input-timeout").typedInput("type", this.payloadTypetimeout)
-
 
             if (this.payloadTypetabId === null) {
                 if (this.tabId === "") {
@@ -97,10 +97,9 @@
             $("#node-input-tabId").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypetabId"),
-                types: ["flow", "global", "msg", "str"]
+                types: ["msg", "global", "flow", "str"]
             })
             $("#node-input-tabId").typedInput("type", this.payloadTypetabId)
-
 
             if (this.payloadTypeindex === null) {
                 if (this.index === "") {
@@ -116,57 +115,50 @@
             $("#node-input-index").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypeindex"),
-                types: ["flow", "global", "msg", "num"]
+                types: ["msg", "global", "flow", "num"]
             })
             $("#node-input-index").typedInput("type", this.payloadTypeindex)
 
         },
-        oneditsave: function() {
-            var trimFields = []
-
-            trimFields.forEach(function(field) {
-                const selector = `node-input-${field.name}`
-                let v = $(selector).val()
-                v = v.trim()
-                $(selector).val(v)
-            })
-        }
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
     });
 </script>
 
-<script type="text/x-red" data-template-name="maya-browser-click">
+<script type="text/html" data-template-name="maya-browser-click">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
     </div>
-                        <div class="form-row">
-    <label for="node-input-selector">selector</label>
-    <input type="text" id="node-input-selector"></input>
-            <input type="hidden" id="node-input-payloadTypeselector">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-timeout">timeout</label>
-    <input type="text" id="node-input-timeout"></input>
-    <input type="hidden" id="node-input-payloadTypetimeout">
-</div>
-                                <div class="form-row">
-    <label for="node-input-tabId">tabId</label>
-    <input type="text" id="node-input-tabId"></input>
-            <input type="hidden" id="node-input-payloadTypetabId">
-     
-</div>
-                                <div class="form-row">
-    <label for="node-input-index">index</label>
-    <input type="text" id="node-input-index"></input>
-    <input type="hidden" id="node-input-payloadTypeindex">
-</div>
-                                <div class="form-row">
-    <label for="node-input-connection">connection</label>
-    <input type="text" id="node-input-connection"></input>
-</div>
-                
-    </script>
+    <div class="form-row">
+        <label for="node-input-selector">selector</label>
+        <input type="text" id="node-input-selector"></input>
+        <input type="hidden" id="node-input-payloadTypeselector">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout">timeout</label>
+        <input type="text" id="node-input-timeout"></input>
+        <input type="hidden" id="node-input-payloadTypetimeout">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tabId">tabId</label>
+        <input type="text" id="node-input-tabId"></input>
+        <input type="hidden" id="node-input-payloadTypetabId">
+    </div>
+    <div class="form-row">
+        <label for="node-input-index">index</label>
+        <input type="text" id="node-input-index"></input>
+        <input type="hidden" id="node-input-payloadTypeindex">
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
 
 <script type="text/x-red" data-help-name="maya-browser-click">
     <p> Enter documentation here </p>

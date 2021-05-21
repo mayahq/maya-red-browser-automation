@@ -22,7 +22,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log("Click:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -47,7 +46,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log("Type:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -71,7 +69,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log("Prompt:", result.data);
                     resolve(result);
                 })
                 .catch(({ response }) => {
@@ -93,7 +90,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log('Navigate:', result.data)
                     resolve(result)
                 })
                 .catch(({ response }) => {
@@ -105,7 +101,6 @@ class Page {
     executeFunction({ selector, func, args, tabId, timeout = 2000 }) {
         return new Promise((resolve, reject) => {
             const payload = { selector, func, args, tabId, timeout }
-            console.log(payload)
             const data = {
                 type: "executeFunction",
                 payload: payload,
@@ -113,7 +108,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log('ExecuteFunction:', result.data)
                     resolve(result)
                 })
                 .catch((e) => reject(e))
@@ -123,7 +117,6 @@ class Page {
     scrape({ query, tabId, timeout = 2000 }) {
         return new Promise((resolve, reject) => {
             const payload = { query, tabId, timeout }
-            console.log(payload)
             const data = {
                 type: 'scrape',
                 payload: payload,
@@ -131,7 +124,6 @@ class Page {
             }
             api.post(this.secretKey, data)
                 .then((result) => {
-                    // console.log('Scrape:', result.data)
                     resolve(result)
                 })
                 .catch((e) => reject(e))
