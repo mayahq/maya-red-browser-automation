@@ -29,7 +29,8 @@
       "maya-browser-open": "src/nodes/mayaBrowserOpen/mayaBrowserOpen.node.js",
       "maya-browser-scrape": "src/nodes/mayaBrowserScrape/mayaBrowserScrape.node.js",
       "maya-browser-type": "src/nodes/mayaBrowserType/mayaBrowserType.node.js",
-      "maya-browser-update-tab": "src/nodes/mayaBrowserUpdateTab/mayaBrowserUpdateTab.node.js"
+      "maya-browser-update-tab": "src/nodes/mayaBrowserUpdateTab/mayaBrowserUpdateTab.node.js",
+      "maya-browser-query": "src/nodes/mayaBrowserQuery/mayaBrowserQuery.node.js"
     }
   }
 }
