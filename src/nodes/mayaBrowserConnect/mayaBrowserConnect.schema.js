@@ -6,6 +6,7 @@ class Connect extends Node {
         category: 'config',
         label: 'Browser Connection',
         isConfig: true,
+        isProfileConfigNode: true,
         exportable: false,
         fields: {},
         redOpts: {
