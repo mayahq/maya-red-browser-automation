@@ -1,0 +1,158 @@
+<script type="text/javascript">
+(function() {
+    function validateProperty(v,vt) {
+        if (/msg|flow|global/.test(vt)) {
+            if (!RED.utils.validatePropertyExpression(v)) {
+                return false;
+            }
+        } else if (vt === "jsonata") {
+            try{jsonata(v);}catch(e){return false;}
+        } else if (vt === "json") {
+            try{JSON.parse(v);}catch(e){return false;}
+        }
+        return true;
+    }
+    RED.nodes.registerType('maya-browser-query', {
+        color: "#E2D96E",
+        category: 'Maya Browser Automation',
+        defaults: {
+            name: {value:""},
+            session: { type: 'maya-browser-connect', value: ''},
+            options: {value:[{key:'', xpath :'', required:true}], validate:function(value) {
+                    if (value.length ) {
+                        for (var i = 0; i < value.length; i++) {
+                            if (!value[i].value) {
+                                return false;
+                            }
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                    return true;
+                }, required:true},
+            formValue:{value:{}},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "swap.svg",
+        label: function() {
+            return "Query"
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        },
+        oneditprepare: function() {
+
+            const selectionTypeselectFieldValues = ["Single", "Multi"]
+            selectionTypeselectFieldValues.forEach((val) => {
+                $("#node-input-selectionType").append($("<option></option>").attr("value", val).text(val))
+            })
+            $("#node-input-selectionType").val(this.selectionType)
+
+            function generateOption(i, option) {
+                var container = $('<li/>',{style:"margin:0; padding:8px 0px 0px; border-bottom:1px solid #ccc;"});
+                var row = $('<div/>').appendTo(container);
+
+                $('<i style="cursor:move; margin-left:3px;" class="node-input-option-handle fa fa-bars"></i>').appendTo(row);
+
+                var labelField = $('<input/>',{class:"node-input-option-key", type:"text", style:"margin-left:7px; width:20%;", placeholder: 'key', value:option.key}).appendTo(row);//.typedInput({default:'str',types:['str', 'num']});
+                var valueClass ="node-input-option-xpath"
+                if (!option.value) { valueClass ="node-input-option-value input-error"; }
+                var valueField = $('<input/>',{class:valueClass, type:"text", style:"margin-left:7px; width:60%;", placeholder: 'xpath', value:option.xpath}).appendTo(row);//.typedInput({default:'str',types:['str','num','bool']});
+                var vis = option.rows ? 'visible' : 'hidden';
+                var finalspan = $('<div/>',{style:"display:inline-block; width:5%;"}).appendTo(row);
+                var deleteButton = $('<a/>',{href:"#",class:"editor-button", style:"font-size:1.3em; left:45%; position:relative;"}).appendTo(finalspan);
+                $('<i/>',{class:"fa fa-trash-o"}).appendTo(deleteButton);
+
+                deleteButton.click(function() {
+                    container.find(".node-input-option-value").removeAttr('required')
+                    container.css({"background":"#fee"});
+                    container.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                });
+
+                $("#node-input-option-container").append(container);
+            }
+
+            $("#node-input-add-option").click(function() {
+                generateOption($("#node-input-option-container").children().length+1, {});
+                $("#node-input-option-container-div").scrollTop($("#node-input-option-container-div").get(0).scrollHeight);
+            });
+
+            for (var i=0; i<this.options.length; i++) {
+                var option = this.options[i];
+                generateOption(i+1,option);
+            }
+
+            $( "#node-input-option-container" ).sortable({
+                axis: "y",
+                handle:".node-input-option-handle",
+                cursor: "move"
+            });
+        },
+        oneditsave: function() {
+            var options = $("#node-input-option-container").children();
+            var node = this;
+            node.options = [];
+            node.formValue = {};
+            options.each(function(i) {
+                var option = $(this);
+                var o = {
+                    key: option.find(".node-input-option-key").val(),//typedInput('value'),
+                    xpath: option.find(".node-input-option-xpath").val(),//typedInput('value'),
+                };
+                node.options.push(o);
+            });
+        },
+        oneditresize: function() {
+            var options = $("#node-input-option-container").children();
+            var newWidth = ($("#node-input-option-container").width() - 175)/2;
+            var node = this;
+            options.each(function(i) {
+                node.resizeRule($(this),newWidth);
+            });
+        }
+    });
+})();
+</script>
+
+<script type="text/html" data-template-name="maya-browser-query">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">Connection</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-selectionType">Selection Type</label>
+        <select type="text" id="node-input-selectionType">
+        </select>
+    </div>
+    
+    <div class="form-row node-input-option-container-row" style="margin-bottom:0px; width:100%; min-width:520px">
+        <label style="vertical-align:top;"><i class="fa fa-list-alt"></i> Selectors</label>
+        <div style="display:inline-block; width:78%; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+          <div class="red-ui-tray-header" style="width:100%; display: inline-block; padding-top:10px; padding-buttom:10px; border-top:0px solid; border-radius:5px 5px 0 0; border-bottom:1px solid #ccc;">
+              <div style="width:94%; display:inline-block; margin-left:27px">
+                <div style="width:20%; text-align:left; float:left;">key</div>
+                <div style="width:58%; text-align:left; float:left; margin-left:9px">xpath</div>
+                <div style="width:12%; text-align:left; float:left;">remove</div>
+              </div>
+          </div>
+          <div id="node-input-option-container-div" style=" height: 257px; padding: 5px; overflow-y:scroll;">
+            <ol id="node-input-option-container" style=" list-style-type:none; margin: 0;"></ol>
+          </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <a href="#" class="editor-button editor-button-small" id="node-input-add-option" style="margin-top: 4px; margin-left: 103px;"><i class="fa fa-plus"></i> <span>element</span></a>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="maya-browser-query">
+    <p> Enter documentation here </p>
+</script>
