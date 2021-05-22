@@ -8,9 +8,9 @@
 				session: { type: "maya-browser-connect", value: "" },
 				options: { value: [{ key: "", xpath: "" }] },
 				tabId: { value: '' },
-				payloadTypeTabId: {value: 'msg', validate: RED.validators.typedInput("payloadTypeTabId")},
+				payloadTypeTabId: {value: '', validate: RED.validators.typedInput("payloadTypeTabId")},
 				timeout: { value: '' },
-				payloadTypeTimeout: {value: 'num', validate: RED.validators.typedInput("payloadTypeTimeout")},
+				payloadTypeTimeout: {value: ''},
 			},
 			inputs: 1,
 			outputs: 1,
@@ -47,14 +47,14 @@
             if (this.timeout === "") {
                 this.payloadTypeTimeout = "date";
             } else {
-                this.payloadTypeTimeout = "num";
+                this.payloadTypeTimeout = "str";
             }
-        } else if (this.payloadTypeTimeout === 'num' || this.payloadTypeTimeout === 'none') {
+        } else if (this.payloadTypeTimeout === 'str' || this.payloadTypeTimeout === 'none') {
             this.payloadTypeTimeout = "num";
         }
         $("#node-input-payloadTypeTimeout").val(this.payloadTypeTabId);
         $("#node-input-timeout").typedInput({
-            default: 'msg',
+            default: 'num',
             typeField: $("#node-input-payloadTypeTimeout"),
             types:['flow','global','msg','num']
         });
@@ -170,7 +170,7 @@
   </div>
 	<div class="form-row">
     <label for="node-input-timeout">timeout </label>
-    <input type="text" id="node-input-timeout" placeholder="timeout (in ms)"></input>
+    <input type="num" id="node-input-timeout" placeholder="timeout (in ms)"></input>
     <input type="hidden" id="node-input-payloadTypeTimeout">
   </div>
 	<div class="form-row node-input-option-container-row" style="margin-bottom:0px; width:100%; min-width:520px">

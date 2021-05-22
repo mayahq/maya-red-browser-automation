@@ -13,15 +13,13 @@ module.exports = function (RED) {
     const node = this;
 
     this.on("input", async function (msg) {
-      const { secretKey } = this.credentials.connection
+      const { secretKey } = this.credentials;
       const page = new Page(secretKey);
-      let tabId = getValue(this.tabId, this.payloadTypeTabId, msg, RED);
-      let timeout = getValue(this.timeout, this.payloadTypeTimeout, msg, RED);
-      let results;
-      let query = this.options.map(q => {
-        let queryObj = {}
-        queryObj[q[key]] = q.xpath;
-        return queryObj;
+      let tabId = await getValue(this.tabId, this.payloadTypeTabId, msg, RED);
+      let timeout = await getValue(this.timeout, this.payloadTypeTimeout, msg, RED);
+      let query = {};
+      this.options.forEach(q => {
+        query[q["key"]] = [q["xpath"]];
       });
       let payload = {
         query,
@@ -29,14 +27,41 @@ module.exports = function (RED) {
         timeout
       }
       try {
-        results =  await page.scrape(payload);
-        msg.results = results;
-      } catch (e) {
-          this.setStatus('ERROR', e.toString().substring(0, 10) + '...')
-          msg.error = e
-          msg.isError = true
+        console.log("Input payload:", payload);
+        const res = await page.scrape(payload)
+        if (res.data.status === 'ERROR') {
+            const error = res.data.error
+            node.status({
+              fill: "red",
+              shape: "ring",
+              text: "error: " + JSON.stringify(error),
+            });
+            msg.error = error
+            msg.isError = true
+            console.error("Error in scraping", msg.error);
+            node.send(msg)
+        } else {
+          node.status({
+            fill: "green",
+            shape: "dot",
+            text: "Query successful",
+          });
+          msg.result = res.data
+          node.send(msg);
+        }
+        console.log(msg.results);
+      } catch (err) {
+        node.error(err);
+        node.status({
+          fill: "red",
+          shape: "ring",
+          text: "error",
+        });
+        msg.error = err
+        msg.isError = true
+        node.send(msg)
       }
-      node.send(msg);
+      
     });
 	}
 	RED.nodes.registerType("maya-browser-query", MayaBrowserQuery);
