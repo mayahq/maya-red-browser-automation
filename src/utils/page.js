@@ -130,6 +130,24 @@ class Page {
         })
     }
 
+    query({ query, tabId, timeout = 2000 }) {
+        return new Promise((resolve, reject) => {
+            const payload = { query, tabId, timeout }
+            console.log(payload)
+            const data = {
+                type: 'query',
+                payload: payload,
+                timeout: timeout
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    // console.log('Scrape:', result.data)
+                    resolve(result)
+                })
+                .catch((e) => reject(e))
+        })
+    }
+
     update({ tabId, updates, timeout }) {
         return new Promise((resolve, reject) => {
             const payload = { updates, tabId, timeout}
