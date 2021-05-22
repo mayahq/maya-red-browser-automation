@@ -19,7 +19,7 @@ module.exports = function (RED) {
       let timeout = await getValue(this.timeout, this.payloadTypeTimeout, msg, RED);
       let query = {};
       this.options.forEach(q => {
-        query[q["key"]] = [q["xpath"]];
+        query[q["key"]] = [q["xpath"] + q["extract"]];
       });
       let payload = {
         query,
