@@ -3,6 +3,7 @@ module.exports = function (RED) {
   const Page = require('../../utils/page');
   const { getValue } = require("../../utils/getValue");
 	function MayaBrowserQuery(config) {
+    // Scrape Node for Maya Red Web Automation
 		RED.nodes.createNode(this, config);
 		this.options = config.options;
     this.tabId = config.tabId;
