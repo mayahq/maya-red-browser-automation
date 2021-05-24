@@ -9,9 +9,10 @@
 				options: { value: [{ key: "", xpath: "" }] },
 				tabId: { value: '' },
 				payloadTypeTabId: {value: '', validate: RED.validators.typedInput("payloadTypeTabId")},
-				timeout: { value: '' },
+				timeout: { value: 5000 },
 				payloadTypeTimeout: {value: ''},
-				extract: { value: ''}
+				extract: { value: ''},
+				mergeOutputs: {value: false},
 			},
 			inputs: 1,
 			outputs: 1,
@@ -78,13 +79,15 @@
 						style: "margin-left:7px; width:20%;",
 						placeholder: "key",
 						value: option.key,
+						required: true
 					}).appendTo(row);
 					var valueField = $("<input/>", {
 						class: "node-input-option-xpath",
 						type: "text",
 						style: "margin-left:7px; width:44%;",
-						placeholder: "xpath",
+						placeholder: "selector",
 						value: option.xpath,
+						required: true
 					}).appendTo(row);
 					
 					var extractField = $('<select/>',{class:"node-input-option-extract",type:"text",style:"margin-left:7px; width:16%"}).appendTo(row);//.typedInput({default:'str',types:['str', 'num']});
@@ -204,8 +207,71 @@
 	<div class="form-row">
 	    <a href="#" class="editor-button editor-button-small" id="node-input-add-option" style="margin-top: 4px; margin-left: 103px;"><i class="fa fa-plus"></i> <span>element</span></a>
 	</div>
+	<div class="form-row">
+    <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-mergeOutputs" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-mergeOutputs" style="width: 70%;">Merge Output (use only if all keys produce same length of outputs)</label>
+  </div>
 </script>
 
-<script type="text/x-red" data-help-name="maya-browser-query">
-	<p> This is start of Query node documentation</p>
+<script type="text/html" data-help-name="maya-browser-query">
+<p>Sets up xpath to query DOM elements on a webpage given permission for in the Maya Web Extension</p>
+<h3>Inputs</h3>
+    <dl class="message-properties">
+				<dt>Connection</dt>
+				<dd>Config node to setup secure connection with the extension</dd>
+				<dt>tab id<span class="property-type">string | num</span></dt>
+				<dd>The unique tab id in which the website to be queried is rendered in. It can be obtained in using <code> {"url":"*://*.[domain]/*"}</code> in the <code>find tab</code> of the Maya Web Automation module.</dd>
+				<dt>timeout<span class="property-type">num</span></dt>
+				<dd>Timeout in milliseconds to be set to timeout if no response is received from the extension</dd>
+				<dt>Selectors<span class="property-type">editable list</span></dt>
+				<dd>The selectors edit field is a dynamic field and any number of entry set can be created using using the elements+ button below. The entry consists of three fields per entry</dd>
+				<ul class="node-ports">
+						<li>
+								<dl class="message-properties">
+										<dt>key <span class="property-type">string</span></dt>
+										<dd>
+											This is a mandatory input to assign header key to data that needs to be scraped.
+											For e.g. if you intend to scrape Google Search Results you can set the key as 'googleSearchTitles'.
+											<bold>ensure that each key in the list is unique</bold>
+										</dd>
+								</dl>
+						</li>
+						<li>
+								<dl class="message-properties">
+										<dt>selector <span class="property-type">string</span></dt>
+										<dd>This mandatory xpath type input is to define which DOM element needs to be selected to query with. You can append the xpath with xpath functions as needed but do
+												set the <code>extract</code> to empty in such cases. </dd>
+								</dl>
+						</li>
+						<li>
+								<dl class="message-properties">
+										<dt>extract <span class="property-type">string</span></dt>
+										<dd>extract dropdown gives the standard options to choose to extract the DOM attributes for the xpath set in previous field. Empty 
+											extract field would expect the attribute to be present in the xpath string itself</dd>
+								</dl>
+						</li>
+				</ul>
+				<dt>Merge Outputs</dt>
+				<dd>Every key in the list can be contain independent elements to extract. However there maybe cases where multiple content from the same element may need to be extracted
+						For e.g. in an ecommerce website if product name and price both are to be extracted for a list of items, the merge outputs checkbox would
+						merge all the extracted content based on the order of indexing.
+						Please ensure that the length of outputs to be extracted in all keys are the same.
+    </dl>
+
+ <h3>Outputs</h3>
+     <ol class="node-ports">
+         <li>Standard output
+             <dl class="message-properties">
+                 <dt>result.data <span class="property-type">array</span></dt>
+                 <dd>The queried data from the input xpaths are received in <code>msg.result.data</field></dd>
+             </dl>
+         </li>
+         <!--<li>Standard error
+             <dl class="message-properties">
+                 <dt>payload <span class="property-type">string</span></dt>
+                 <dd>the standard error of the command.</dd>
+             </dl>
+         </li>-->
+     </ol>
 </script>
