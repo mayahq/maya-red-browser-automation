@@ -1,5 +1,6 @@
-const Click = require('./mayaBrowserClick.schema')
+const NodeClass = require('./mayaBrowserClick.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const click = new Click()
-const fn = (RED) => click.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

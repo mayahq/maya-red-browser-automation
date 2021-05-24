@@ -1,5 +1,6 @@
-const ExecuteFunction = require('./mayaBrowserExecuteFunction.schema')
+const NodeClass = require('./mayaBrowserExecuteFunction.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const execFuncNode = new ExecuteFunction()
-const fn = (RED) => execFuncNode.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

@@ -73,6 +73,54 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="maya-browser-find-tab">
-    <p> Enter documentation here </p>
+<script type="text/html" data-help-name="maya-browser-find-tab">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+    <br>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>query<span class="property-type">object</span></dt>
+        <dd>
+            The JSON object that specifies the criteria for searching tabs. The structure of this object is documented
+            in detail <a href='https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query#parameters'>here</a>.
+            Note that an empty query (<code>{}</code>) will return all tabs of the browser.
+        </dd>
+
+        <dt>session <span class="property-type">config</span></dt>
+        <dd>
+            Holds the encryption keys used by Maya to securely talk to your browser.
+        </dd>
+
+    </dl>
+    <br>
+
+    <h2>Outputs</h2>
+    <p>
+        The following properties are set on the <code>msg</code> object in case of successful execution.
+    </p>
+    <dl class="message-properties">
+        <dt>tabs<span class="property-type">array</span></dt>
+        <dd>
+            Array of browser tab objects representing all the tabs that matched the search criteria.
+            You can see what properties a tab object contains in
+            <a href='https://developer.chrome.com/docs/extensions/reference/tabs/#type-Tab'>the Google Chrome docs</a>.
+        </dd>
+    </dl>
+    <br>
+
+    <h2>On error</h2>
+    <p>
+        The node will set the below-mentioned properties on the <code>msg</code> object, when there is an error
+    </p>
+    <dl class="message-properties">
+
+        <dt>isError<span class="property-type">boolean</span></dt>
+        <dd>Set to true if the operation failed for whatever reason. Note that this property might not be set at all in case of no error.</dd>
+
+        <dt>error <span class="property-type">object</span></dt>
+        <dd>Contains information about the error that occured</dd>
+
+    </dl>
 </script>

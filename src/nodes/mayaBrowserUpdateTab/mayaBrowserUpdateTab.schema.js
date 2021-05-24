@@ -7,6 +7,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class UpdateTab extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-update-tab',
         category: 'Maya Browser Automation',
@@ -15,7 +19,7 @@ class UpdateTab extends Node {
         fields: {
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
             updates: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
-            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'] }),
+            tabId: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
             session: new fields.ConfigNode({ type: Connect })
         },
 

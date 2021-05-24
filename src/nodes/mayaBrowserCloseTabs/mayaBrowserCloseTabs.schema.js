@@ -7,6 +7,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class CloseTabs extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-close-tabs',
         category: 'Maya Browser Automation',

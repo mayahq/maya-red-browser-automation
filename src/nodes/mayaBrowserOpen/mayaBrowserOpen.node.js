@@ -1,5 +1,6 @@
-const Open = require('./mayaBrowserOpen.schema')
+const NodeClass = require('./mayaBrowserOpen.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const openNode = new Open()
-const fn = (RED) => openNode.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

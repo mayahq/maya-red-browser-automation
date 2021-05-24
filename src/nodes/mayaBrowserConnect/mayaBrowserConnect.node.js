@@ -1,5 +1,6 @@
-const Connect = require('./mayaBrowserConnect.schema')
+const NodeClass = require('./mayaBrowserConnect.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const conn = new Connect()
-const fn = (RED) => conn.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

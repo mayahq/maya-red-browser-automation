@@ -3,6 +3,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class Open extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-open',
         category: 'Maya Browser Automation',

@@ -1,5 +1,6 @@
-const CloseTabs = require('./mayaBrowserCloseTabs.schema')
+const NodeClass = require('./mayaBrowserCloseTabs.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const closeTabsNode = new CloseTabs()
-const fn = (RED) => closeTabsNode.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)
