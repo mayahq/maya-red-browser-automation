@@ -6,12 +6,11 @@
 			defaults: {
 				name: { value: "" },
 				session: { type: "maya-browser-connect", value: "" },
-				options: { value: [{ key: "", xpath: "" }] },
-				tabId: { value: '' },
+				options: { value: [{ key: "", xpath: "", extract:""}], required: true },
+				tabId: { value: 'tabs[0].id' },
 				payloadTypeTabId: {value: '', validate: RED.validators.typedInput("payloadTypeTabId")},
 				timeout: { value: 5000 },
 				payloadTypeTimeout: {value: ''},
-				extract: { value: ''},
 				mergeOutputs: {value: false},
 			},
 			inputs: 1,
@@ -20,8 +19,8 @@
 			paletteLabel: function () {
 				return "Query";
 			},
-			label: function () {
-				return "Query";
+			label: function() {
+          return this.name || "Query";
 			},
 			labelStyle: function () {
 				return this.name ? "node_label_italic" : "";
@@ -221,7 +220,14 @@
 				<dt>Connection</dt>
 				<dd>Config node to setup secure connection with the extension</dd>
 				<dt>tab id<span class="property-type">string | num</span></dt>
-				<dd>The unique tab id in which the website to be queried is rendered in. It can be obtained in using <code> {"url":"*://*.[domain]/*"}</code> in the <code>find tab</code> of the Maya Web Automation module.</dd>
+				<dd>
+					The unique tab id in which the website to be queried is rendered in. It can be obtained in using 
+					<code> {"url":"*://*.[domain]/*"}</code> in the <code>find tab</code> node.
+					For e.g. 
+					<code>{"url":"*://*.[domain]/*"}</code> where domain can be anything like <code>google.com</code> or <code>amazon.in</code>.
+					There are other query elements which can be added to same object as referenced above. One common one to be used is for <code>
+					activeTab</code> which takes in a <code>boolean</code> to search for a tab in focus with the url pattern matching above.
+				</dd>
 				<dt>timeout<span class="property-type">num</span></dt>
 				<dd>Timeout in milliseconds to be set to timeout if no response is received from the extension</dd>
 				<dt>Selectors<span class="property-type">editable list</span></dt>
@@ -253,7 +259,7 @@
 						</li>
 				</ul>
 				<dt>Merge Outputs</dt>
-				<dd>Every key in the list can be contain independent elements to extract. However there maybe cases where multiple content from the same element may need to be extracted
+				<dd>Every key in the list can correspond to an independent selector elements to extract. However there maybe cases where multiple content from the same element may need to be extracted
 						For e.g. in an ecommerce website if product name and price both are to be extracted for a list of items, the merge outputs checkbox would
 						merge all the extracted content based on the order of indexing.
 						Please ensure that the length of outputs to be extracted in all keys are the same.
@@ -263,8 +269,8 @@
      <ol class="node-ports">
          <li>Standard output
              <dl class="message-properties">
-                 <dt>result.data <span class="property-type">array</span></dt>
-                 <dd>The queried data from the input xpaths are received in <code>msg.result.data</field></dd>
+                 <dt>result <span class="property-type">array</span></dt>
+                 <dd>The queried data from the input xpaths are received in <code>msg.result</field></dd>
              </dl>
          </li>
          <!--<li>Standard error

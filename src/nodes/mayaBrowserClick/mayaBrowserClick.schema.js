@@ -18,7 +18,7 @@ class Click extends Node {
         fields: {
             selector: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
-            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
+            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             index: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 0}),
             session: new fields.ConfigNode({ type: Connect })
         }

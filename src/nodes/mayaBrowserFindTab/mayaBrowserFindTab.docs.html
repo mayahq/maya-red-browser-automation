@@ -30,6 +30,10 @@
         Array of browser tab objects representing all the tabs that matched the search criteria. 
         You can see what properties a tab object contains in 
         <a href='https://developer.chrome.com/docs/extensions/reference/tabs/#type-Tab'>the Google Chrome docs</a>.
+        For e.g. 
+        <code>{"url":"*://*.[domain]/*"}</code> where domain can be anything like <code>google.com</code> or <code>amazon.in</code>.
+        There are other query elements which can be added to same object as referenced above. One common one to be used is for <code>
+        activeTab</code> which takes in a <code>boolean</code> to search for a tab in focus with the url pattern matching above.
     </dd>
 </dl>
 <br>

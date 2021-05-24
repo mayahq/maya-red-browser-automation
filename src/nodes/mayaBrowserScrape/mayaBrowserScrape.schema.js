@@ -14,7 +14,7 @@ class Scrape extends Node {
         fields: {
             query: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'flow', 'global'] }),
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
-            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
+            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             session: new fields.ConfigNode({ type: Connect })
         }
     })

@@ -22,7 +22,7 @@
                 value: "num"
             },
             tabId: {
-                value: ""
+                value: "tabs[0].id"
             },
             payloadTypetabId: {
                 value: "str"
@@ -152,7 +152,12 @@
 
         <dt>tabId <span class="property-type">number</span></dt>
         <dd>
-            The <code>id</code> of the tab inside which scraping is to be performed.
+            The unique tab id in which the website to be queried is rendered in. It can be obtained in using
+            <code> {"url":"*://*.[domain]/*"}</code> in the <code>find tab</code> node.
+            For e.g.
+            <code>{"url":"*://*.[domain]/*"}</code> where domain can be anything like <code>google.com</code> or <code>amazon.in</code>.
+            There are other query elements which can be added to same object as referenced above. One common one to be used is for <code>
+                activeTab</code> which takes in a <code>boolean</code> to search for a tab in focus with the url pattern matching above.
         </dd>
 
         <dt>session <span class="property-type">config</span></dt>
