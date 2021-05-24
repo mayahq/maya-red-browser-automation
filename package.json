@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mayahq/module-sdk": "file:../../module-sdk",
+    "@mayahq/module-sdk": "^0.2.5",
     "axios": "^0.21.1",
     "open": "^8.0.5",
     "uuid": "^8.3.2",
