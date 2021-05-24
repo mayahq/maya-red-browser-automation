@@ -1,5 +1,6 @@
-const FindTab = require('./mayaBrowserFindTab.schema')
+const NodeClass = require('./mayaBrowserFindTab.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const findTabNode = new FindTab()
-const fn = (RED) => findTabNode.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

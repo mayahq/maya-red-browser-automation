@@ -1,5 +1,6 @@
-const UpdateTab = require('./mayaBrowserUpdateTab.schema')
+const NodeClass = require('./mayaBrowserUpdateTab.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const node = new UpdateTab()
-const fn = (RED) => node.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

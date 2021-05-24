@@ -1,5 +1,6 @@
-const Type = require('./mayaBrowserType.schema')
+const NodeClass = require('./mayaBrowserType.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const type = new Type()
-const fn = (RED) => type.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

@@ -1,5 +1,6 @@
-const Scrape = require('./mayaBrowserScrape.schema')
+const NodeClass = require('./mayaBrowserScrape.schema')
+const {
+    nodefn
+} = require('@mayahq/module-sdk')
 
-const scrapeNode = new Scrape()
-const fn = (RED) => scrapeNode.config(RED)
-module.exports = fn
+module.exports = nodefn(NodeClass)

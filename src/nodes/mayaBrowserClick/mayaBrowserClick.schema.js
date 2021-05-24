@@ -7,6 +7,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class Click extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-click',
         category: 'Maya Browser Automation',

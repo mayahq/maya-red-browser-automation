@@ -7,6 +7,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class ExecuteFunction extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-execute-function',
         category: 'Maya Browser Automation',

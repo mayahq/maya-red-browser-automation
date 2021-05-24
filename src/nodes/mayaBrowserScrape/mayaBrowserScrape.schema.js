@@ -3,6 +3,10 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class Scrape extends Node {
+    constructor(node, RED) {
+        super(node, RED)
+    }
+    
     static schema = new Schema({
         name: 'maya-browser-scrape',
         category: 'Maya Browser Automation',
@@ -32,7 +36,7 @@ class Scrape extends Node {
                 msg.isError = true
             } else {
                 this.setStatus('SUCCESS', 'Scraped Successfully')
-                msg.result = res.data
+                msg.scrapeResult = res.data.data
             }
         } catch (e) {
             this.setStatus('ERROR', e.toString().substring(0, 50) + '...')
