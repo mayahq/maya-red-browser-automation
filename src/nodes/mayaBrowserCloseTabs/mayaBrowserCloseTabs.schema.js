@@ -16,7 +16,7 @@ class CloseTabs extends Node {
         category: 'Maya Browser Automation',
         label: 'Close Tabs',
         fields: {
-            action: new fields.Select({ options: ['Close', 'Exclude'] }),
+            action: new fields.Select({ options: ['Close', 'Exclude'], defaultVal: 'Close' }),
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000 }),
             tabIds: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
             session: new fields.ConfigNode({ type: Connect })
@@ -24,7 +24,7 @@ class CloseTabs extends Node {
     })
 
     getTabIds(tabIds) {
-        let tabIdList
+        let tabIdList = []
         if (Array.isArray(tabIds)) {
             tabIds.forEach((ele) => {
                 if (typeof ele === 'string' || typeof ele === 'number') {
@@ -35,6 +35,10 @@ class CloseTabs extends Node {
                     throw new Error('Invalid tabId specification')
                 }
             })
+        } else if(typeof tabIds === 'object'){
+            tabIdList.push(tabIds.id);
+        } else if(typeof ele === 'string' || typeof ele === 'number') {
+            tabIdList.push(tabIds);
         }
 
         return tabIdList
@@ -47,10 +51,9 @@ class CloseTabs extends Node {
         const { secretKey } = this.credentials.session
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', `Closing tabs...`)
-
         const tabIds = this.getTabIds(vals.tabIds)
         const closeOpts = { close: [], keep: [] }
-        if (this.action === 'Close') {
+        if (vals.action === 'Close') {
             closeOpts.close = tabIds
         } else {
             closeOpts.keep = tabIds
