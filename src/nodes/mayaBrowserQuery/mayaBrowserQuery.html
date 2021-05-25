@@ -8,7 +8,7 @@
 				session: { type: "maya-browser-connect", value: "" },
 				options: { value: [{ key: "", xpath: "", extract:""}], required: true },
 				tabId: { value: 'tabs[0].id' },
-				payloadTypeTabId: {value: '', validate: RED.validators.typedInput("payloadTypeTabId")},
+				payloadTypeTabId: {value: 'msg', validate: RED.validators.typedInput("payloadTypeTabId")},
 				timeout: { value: 5000 },
 				payloadTypeTimeout: {value: ''},
 				mergeOutputs: {value: false},

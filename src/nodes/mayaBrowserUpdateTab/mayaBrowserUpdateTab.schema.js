@@ -19,7 +19,7 @@ class UpdateTab extends Node {
         fields: {
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
             updates: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
-            tabId: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
+            tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             session: new fields.ConfigNode({ type: Connect })
         },
 
