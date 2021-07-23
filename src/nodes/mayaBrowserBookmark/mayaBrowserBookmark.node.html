@@ -1,0 +1,196 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("maya-browser-bookmark", {
+        category: "Maya Browser Automation",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            parent: {
+                value: "-1"
+            },
+            payloadTypeparent: {
+                value: "str"
+            },
+            title: {
+                value: "New Bookmark"
+            },
+            payloadTypetitle: {
+                value: "str"
+            },
+            url: {
+                value: "https://www.google.com"
+            },
+            payloadTypeurl: {
+                value: "str"
+            },
+            func: {
+                value: "getBookmark"
+            },
+            session: {
+                value: "",
+                type: "maya-browser-connect"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Bookmark"
+        },
+        paletteLabel: "Bookmark",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeparent === null) {
+                if (this.parent === "") {
+                    this.payloadTypeparent = "date"
+                } else {
+                    this.payloadTypeparent = "str"
+                }
+            } else if (this.payloadTypeparent === 'string' || this.payloadTypeparent === 'none') {
+                this.payloadTypeparent = "str"
+            }
+
+            $("#node-input-payloadTypeparent").val(this.payloadTypeparent)
+            $("#node-input-parent").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeparent"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-parent").typedInput("type", this.payloadTypeparent)
+
+            if (this.payloadTypetitle === null) {
+                if (this.title === "") {
+                    this.payloadTypetitle = "date"
+                } else {
+                    this.payloadTypetitle = "str"
+                }
+            } else if (this.payloadTypetitle === 'string' || this.payloadTypetitle === 'none') {
+                this.payloadTypetitle = "str"
+            }
+
+            $("#node-input-payloadTypetitle").val(this.payloadTypetitle)
+            $("#node-input-title").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypetitle"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-title").typedInput("type", this.payloadTypetitle)
+
+            if (this.payloadTypeurl === null) {
+                if (this.url === "") {
+                    this.payloadTypeurl = "date"
+                } else {
+                    this.payloadTypeurl = "str"
+                }
+            } else if (this.payloadTypeurl === 'string' || this.payloadTypeurl === 'none') {
+                this.payloadTypeurl = "str"
+            }
+
+            $("#node-input-payloadTypeurl").val(this.payloadTypeurl)
+            $("#node-input-url").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeurl"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-url").typedInput("type", this.payloadTypeurl)
+
+
+            const funcFieldSetNames = ["getBookmark", "addBookmark", "getBookmarkFolders"]
+            funcFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-func").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-func").val(this.func)
+            $("#node-input-func").on("change", (e) => {
+                const newFieldSet = e.target.value
+                funcFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-func").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="maya-browser-bookmark">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-func">func</label>
+        <select type="text" id="node-input-func">
+        </select>
+    </div>
+    <div id="fieldset-getBookmark" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-addBookmark" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-parent">parent</label>
+            <input type="text" id="node-input-parent"></input>
+            <input type="hidden" id="node-input-payloadTypeparent">
+        </div>
+        <div class="form-row">
+            <label for="node-input-title">title</label>
+            <input type="text" id="node-input-title"></input>
+            <input type="hidden" id="node-input-payloadTypetitle">
+        </div>
+        <div class="form-row">
+            <label for="node-input-url">url</label>
+            <input type="text" id="node-input-url"></input>
+            <input type="hidden" id="node-input-payloadTypeurl">
+        </div>
+    </div>
+
+    <div id="fieldset-getBookmarkFolders" style="padding-left: 10px;">
+
+    </div>
+    <div class="form-row">
+        <label for="node-input-session">session</label>
+        <input type="text" id="node-input-session"></input>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="maya-browser-bookmark">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

@@ -9,6 +9,9 @@
             isProfileConfigNode: {
                 value: false
             },
+            clickType: {
+                value: "click"
+            },
             selector: {
                 value: ""
             },
@@ -47,6 +50,12 @@
         paletteLabel: "Click",
         exportable: true,
         oneditprepare: function() {
+            const clickTypeselectFieldValues = ["click", "mouseX"]
+            clickTypeselectFieldValues.forEach((val) => {
+                $("#node-input-clickType").append($("<option></option>").attr("value", val).text(val))
+            })
+            $("#node-input-clickType").val(this.clickType)
+
             if (this.payloadTypeselector === null) {
                 if (this.selector === "") {
                     this.payloadTypeselector = "date"
@@ -133,6 +142,11 @@
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-clickType">clickType</label>
+        <select type="text" id="node-input-clickType">
+        </select>
     </div>
     <div class="form-row">
         <label for="node-input-selector">selector</label>
