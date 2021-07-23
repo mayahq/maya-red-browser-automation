@@ -7,11 +7,12 @@ class Page {
         this.secretKey = secretKey
     }
 
-    click({ selectorType, selector, index = 0, timeout, tabId = null }) {
+    click({ clickType, selectorType, selector, index = 0, timeout, tabId = null }) {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "click",
                 payload: {
+                    clickType: clickType,
                     selector: selector,
                     selectorType: selectorType || "querySelector",
                     index: index,

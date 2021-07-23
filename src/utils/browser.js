@@ -7,6 +7,50 @@ class Browser {
         this.secretKey = secretKey
     }
 
+    getBookmarks() {
+        return new Promise((resolve, reject) => {
+            const data = {
+                type: 'getBookmarks'
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    resolve(result)
+                })
+                .catch((e) => {
+                    reject(e)
+                })
+        })
+    }
+
+    getBookmarkFolders() {
+        return new Promise((resolve, reject) => {
+            const data = {
+                type: 'getBookmarkFolders'
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    resolve(result)
+                })
+                .catch((e) => {
+                    reject(e)
+                })
+        })
+    }
+
+    addBookmark({ title, url, parentId }) {
+        return new Promise((resolve, reject) => {
+            const data = {
+                type: 'addBookmark',
+                payload: { title, url, parentId }
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    resolve(result)
+                })
+                .catch((e) => reject(e))
+        })
+    }
+
     open(url, timeout = 2000) {
         return new Promise((resolve, reject) => {
             const data = {
