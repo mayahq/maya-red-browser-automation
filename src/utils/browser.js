@@ -7,10 +7,11 @@ class Browser {
         this.secretKey = secretKey
     }
 
-    getBookmarks() {
+    getBookmarks({ parentId = null }) {
         return new Promise((resolve, reject) => {
             const data = {
-                type: 'getBookmarks'
+                type: 'getBookmarks',
+                payload: { parentId }
             }
             api.post(this.secretKey, data)
                 .then((result) => {
@@ -42,6 +43,20 @@ class Browser {
             const data = {
                 type: 'addBookmark',
                 payload: { title, url, parentId }
+            }
+            api.post(this.secretKey, data)
+                .then((result) => {
+                    resolve(result)
+                })
+                .catch((e) => reject(e))
+        })
+    }
+
+    removeBookmark({ bookmarkId }) {
+        return new Promise((resolve, reject) => {
+            const data = {
+                type: 'removeBookmark',
+                payload: { bookmarkId }
             }
             api.post(this.secretKey, data)
                 .then((result) => {
