@@ -9,6 +9,12 @@
             isProfileConfigNode: {
                 value: false
             },
+            parentId: {
+                value: "-1"
+            },
+            payloadTypeparentId: {
+                value: "str"
+            },
             parent: {
                 value: "-1"
             },
@@ -25,6 +31,12 @@
                 value: "https://www.google.com"
             },
             payloadTypeurl: {
+                value: "str"
+            },
+            bookmarkId: {
+                value: "-1"
+            },
+            payloadTypebookmarkId: {
                 value: "str"
             },
             func: {
@@ -44,6 +56,24 @@
         paletteLabel: "Bookmark",
         exportable: true,
         oneditprepare: function() {
+            if (this.payloadTypeparentId === null) {
+                if (this.parentId === "") {
+                    this.payloadTypeparentId = "date"
+                } else {
+                    this.payloadTypeparentId = "str"
+                }
+            } else if (this.payloadTypeparentId === 'string' || this.payloadTypeparentId === 'none') {
+                this.payloadTypeparentId = "str"
+            }
+
+            $("#node-input-payloadTypeparentId").val(this.payloadTypeparentId)
+            $("#node-input-parentId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeparentId"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-parentId").typedInput("type", this.payloadTypeparentId)
+
             if (this.payloadTypeparent === null) {
                 if (this.parent === "") {
                     this.payloadTypeparent = "date"
@@ -98,8 +128,26 @@
             })
             $("#node-input-url").typedInput("type", this.payloadTypeurl)
 
+            if (this.payloadTypebookmarkId === null) {
+                if (this.bookmarkId === "") {
+                    this.payloadTypebookmarkId = "date"
+                } else {
+                    this.payloadTypebookmarkId = "str"
+                }
+            } else if (this.payloadTypebookmarkId === 'string' || this.payloadTypebookmarkId === 'none') {
+                this.payloadTypebookmarkId = "str"
+            }
 
-            const funcFieldSetNames = ["getBookmark", "addBookmark", "getBookmarkFolders"]
+            $("#node-input-payloadTypebookmarkId").val(this.payloadTypebookmarkId)
+            $("#node-input-bookmarkId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypebookmarkId"),
+                types: ["msg", "flow", "global", "str"]
+            })
+            $("#node-input-bookmarkId").typedInput("type", this.payloadTypebookmarkId)
+
+
+            const funcFieldSetNames = ["getBookmark", "addBookmark", "removeBookmark", "getBookmarkFolders"]
             funcFieldSetNames.forEach((fieldSetName) => {
                 $("#node-input-func").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
             })
@@ -117,12 +165,42 @@
             })
 
         },
-        oneditsave: function() {},
-        oneditcancel: function() {},
-        oneditdelete: function() {},
-        oneditresize: function() {},
-        onpaletteadd: function() {},
-        onpaletteremove: function() {}
+        oneditsave: function() {
+
+
+
+
+        },
+        oneditcancel: function() {
+
+
+
+
+        },
+        oneditdelete: function() {
+
+
+
+
+        },
+        oneditresize: function() {
+
+
+
+
+        },
+        onpaletteadd: function() {
+
+
+
+
+        },
+        onpaletteremove: function() {
+
+
+
+
+        }
     });
 </script>
 
@@ -137,7 +215,11 @@
         </select>
     </div>
     <div id="fieldset-getBookmark" style="padding-left: 10px;">
-
+        <div class="form-row">
+            <label for="node-input-parentId">parentId</label>
+            <input type="text" id="node-input-parentId"></input>
+            <input type="hidden" id="node-input-payloadTypeparentId">
+        </div>
     </div>
 
     <div id="fieldset-addBookmark" style="padding-left: 10px;">
@@ -155,6 +237,14 @@
             <label for="node-input-url">url</label>
             <input type="text" id="node-input-url"></input>
             <input type="hidden" id="node-input-payloadTypeurl">
+        </div>
+    </div>
+
+    <div id="fieldset-removeBookmark" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-bookmarkId">Bookmark ID</label>
+            <input type="text" id="node-input-bookmarkId"></input>
+            <input type="hidden" id="node-input-payloadTypebookmarkId">
         </div>
     </div>
 

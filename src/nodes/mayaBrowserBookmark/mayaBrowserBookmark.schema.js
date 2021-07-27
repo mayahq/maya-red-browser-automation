@@ -20,11 +20,37 @@ class MayaBrowserBookmark extends Node {
         fields: {
             func: new fields.SelectFieldSet({
                 fieldSets: {
-                    getBookmark: {},
+                    getBookmark: {
+                        parentId: new fields.Typed({
+                            type: 'str',
+                            allowedTypes: ['msg', 'flow', 'global'],
+                            defaultVal: '-1'
+                        }),
+                    },
                     addBookmark: {
-                        parent: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'], defaultVal: '-1'}),
-                        title: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'], defaultVal: 'New Bookmark' }),
-                        url: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'], defaultVal: 'https://www.google.com' })
+                        parent: new fields.Typed({
+                            type: 'str',
+                            allowedTypes: ['msg', 'flow', 'global'],
+                            defaultVal: '-1'
+                        }),
+                        title: new fields.Typed({ 
+                            type: 'str', 
+                            allowedTypes: ['msg', 'flow', 'global'], 
+                            defaultVal: 'New Bookmark' 
+                        }),
+                        url: new fields.Typed({ 
+                            type: 'str', 
+                            allowedTypes: ['msg', 'flow', 'global'], 
+                            defaultVal: 'https://www.google.com' 
+                        })
+                    },
+                    removeBookmark: {
+                        bookmarkId: new fields.Typed({ 
+                            type: 'str', 
+                            allowedTypes: ['msg', 'flow', 'global'], 
+                            defaultVal: '-1', 
+                            displayName: 'Bookmark ID'
+                        })
                     },
                     getBookmarkFolders: {}
                 }
@@ -50,7 +76,11 @@ class MayaBrowserBookmark extends Node {
             if (vals.func.selected === 'getBookmark') {
 
                 this.setStatus('PROGRESS', 'Fetching bookmarks...')
-                const { data } = await browser.getBookmarks()
+                let { parentId } = vals.func.childValues
+                if (parseInt(parentId) < 0) {
+                    parentId = null
+                }
+                const { data } = await browser.getBookmarks({ parentId })
                 
                 if (data.status === 'ERROR') {
                     msg.error = data.error
@@ -81,7 +111,23 @@ class MayaBrowserBookmark extends Node {
                 this.setStatus('SUCCESS', 'Added')
                 return msg
 
-            } 
+            }
+            else if (vals.func.selected === 'removeBookmark') {
+                this.setStatus('PROGRESS', 'Removing bookmark...')
+                const { bookmarkId } = vals.func.childValues
+                const { data } = await browser.removeBookmark({ bookmarkId })
+    
+                if (data.status === 'ERROR') {
+                    msg.error = data.error
+                    msg.isError = true
+                    this.setStatus('ERROR', data.error.description)
+                    return msg
+                }
+    
+                msg.bookmarkId = data.bookmarkId
+                this.setStatus('SUCCESS', 'Removed')
+                return msg
+            }
             else if (vals.func.selected === 'getBookmarkFolders') {
 
                 this.setStatus('PROGRESS', 'Fetching bookmark folders...')
