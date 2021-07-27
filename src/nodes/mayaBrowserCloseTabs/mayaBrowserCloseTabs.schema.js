@@ -20,7 +20,8 @@ class CloseTabs extends Node {
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000 }),
             tabIds: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
             session: new fields.ConfigNode({ type: Connect })
-        }
+        },
+        icon: "white-globe.svg"
     })
 
     getTabIds(tabIds) {

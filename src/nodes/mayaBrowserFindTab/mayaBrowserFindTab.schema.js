@@ -14,7 +14,8 @@ class FindTab extends Node {
         fields: {
             query: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
             session: new fields.ConfigNode({ type: Connect })
-        }
+        },
+        icon: "white-globe.svg"
     })
 
     async onMessage(msg, vals) {

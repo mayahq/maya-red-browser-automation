@@ -22,7 +22,7 @@ class UpdateTab extends Node {
             tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             session: new fields.ConfigNode({ type: Connect })
         },
-
+        icon: "white-globe.svg"
     })
 
     getTabIds(tabIdVal) {

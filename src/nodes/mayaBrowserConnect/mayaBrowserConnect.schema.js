@@ -17,7 +17,8 @@ class Connect extends Node {
             credentials: {
                 secretKey: new fields.Credential({ type: 'str', password: true })
             }
-        }
+        },
+        icon: "white-globe.svg"
     })
 }
 

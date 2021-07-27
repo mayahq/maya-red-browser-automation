@@ -22,7 +22,8 @@ class ExecuteFunction extends Node {
             func: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'], displayName: 'function' }),
             args: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'], displayName: 'arguments' }),
             session: new fields.ConfigNode({ type: Connect })
-        }
+        },
+        icon: "white-globe.svg"
     })
 
     cleanArgs(args) {

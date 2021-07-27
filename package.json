@@ -31,7 +31,7 @@
       "maya-browser-scrape": "src/nodes/mayaBrowserScrape/mayaBrowserScrape.node.js",
       "maya-browser-type": "src/nodes/mayaBrowserType/mayaBrowserType.node.js",
       "maya-browser-update-tab": "src/nodes/mayaBrowserUpdateTab/mayaBrowserUpdateTab.node.js",
-      "maya-browser-query": "src/nodes/mayaBrowserQuery/mayaBrowserQuery.js",
+      "maya-browser-query": "src/special-nodes/mayaBrowserQuery/mayaBrowserQuery.js",
       "maya-browser-bookmark": "src/nodes/mayaBrowserBookmark/mayaBrowserBookmark.node.js"
     }
   }

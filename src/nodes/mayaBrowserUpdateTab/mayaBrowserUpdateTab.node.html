@@ -81,15 +81,15 @@
                 if (this.tabId === "") {
                     this.payloadTypetabId = "date"
                 } else {
-                    this.payloadTypetabId = "str"
+                    this.payloadTypetabId = "msg"
                 }
             } else if (this.payloadTypetabId === 'string' || this.payloadTypetabId === 'none') {
-                this.payloadTypetabId = "str"
+                this.payloadTypetabId = "msg"
             }
 
             $("#node-input-payloadTypetabId").val(this.payloadTypetabId)
             $("#node-input-tabId").typedInput({
-                default: "str",
+                default: "msg",
                 typeField: $("#node-input-payloadTypetabId"),
                 types: ["msg", "global", "flow", "str"]
             })

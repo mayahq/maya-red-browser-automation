@@ -57,6 +57,7 @@ class MayaBrowserBookmark extends Node {
             }),
             session: new fields.ConfigNode({ type: Connect })
         },
+        icon: "white-globe.svg"
 
     })
 

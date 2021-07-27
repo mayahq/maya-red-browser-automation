@@ -14,7 +14,8 @@ class Open extends Node {
         fields: {
             url: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'] }),
             session: new fields.ConfigNode({ type: Connect })
-        }
+        },
+        icon: "white-globe.svg"
     })
 
     async onMessage(msg, vals) {
