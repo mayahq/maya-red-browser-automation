@@ -1,3 +1,18 @@
+const { Tokens } = require('@mayahq/module-sdk')
+const path = require('path')
+
+function getRuntimeId(userDir) {
+	const relativeUserDir = path.basename(userDir)
+	const elems = relativeUserDir.split('_')
+	if (elems.length < 2) {
+		const e = new Error('The node-red directory name must be of the format ".nodered_XXXXX"')
+		e.type = 'INVALID_USERDIR_FORMAT'
+		throw e
+	}
+
+	return elems[elems.length - 1]
+}
+
 module.exports = function (RED) {
 	"use strict";
 	const Page = require("../../utils/page");
@@ -11,12 +26,29 @@ module.exports = function (RED) {
 		this.payloadTypeTabId = config.payloadTypeTabId;
 		this.timeout = config.timeout;
 		this.payloadTypeTimeout = config.payloadTypeTimeout;
-		this.credentials = RED.nodes.getCredentials(config.session);
 		this.mergeOutputs = config.mergeOutputs;
 		const node = this;
 
-		this.on("input", async function (msg) {
-			const { secretKey } = this.credentials;
+		const userDir = RED.settings.get('userDir')
+		const masterKey = RED.settings.get('masterKey')
+		const mayaBackendUrl = RED.settings.get('mayaBackendUrl')
+		const mayaRuntimeId = getRuntimeId(userDir)
+
+
+		const tokens = new Tokens({
+			mayaRoot: path.join(userDir, '../..'),
+			masterKey: masterKey,
+			modulePackageName: 'maya-red-browser-automation',
+			_mayaRuntimeId: mayaRuntimeId,
+			mayaBackendUrl: mayaBackendUrl
+		})
+
+		tokens.get()
+			.then((val) => this.secretKey = val.access_token)
+
+		this.on("input", async (msg) => {
+			console.log('secretKey', this.secretKey)
+			const secretKey = this.secretKey
 			const page = new Page(secretKey);
 			let tabId = await getValue(this.tabId, this.payloadTypeTabId, msg, RED);
 			let timeout = await getValue(

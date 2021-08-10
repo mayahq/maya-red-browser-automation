@@ -5,7 +5,6 @@
 			category: "Maya Browser Automation",
 			defaults: {
 				name: { value: "" },
-				session: { type: "maya-browser-connect", value: "" },
 				options: { value: [{ key: "", xpath: "", extract:""}], required: true },
 				tabId: { value: 'tabs[0].id' },
 				payloadTypeTabId: {value: 'msg', validate: RED.validators.typedInput("payloadTypeTabId")},
@@ -180,10 +179,6 @@
 	<div class="form-row">
 	    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
 	    <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
-	</div>
-	<div class="form-row">
-	    <label for="node-input-session">Connection</label>
-	    <input type="text" id="node-input-session"></input>
 	</div>
 	<div class="form-row">
     <label for="node-input-tabId">tab Id </label>
