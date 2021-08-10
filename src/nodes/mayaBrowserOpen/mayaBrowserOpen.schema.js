@@ -3,8 +3,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class Open extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -13,7 +13,6 @@ class Open extends Node {
         label: 'Open',
         fields: {
             url: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'] }),
-            session: new fields.ConfigNode({ type: Connect })
         },
         icon: "white-globe.svg"
     })
@@ -22,7 +21,7 @@ class Open extends Node {
         if (msg.isError) {
             return msg
         }
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', `Opening ${vals.url}`)
 

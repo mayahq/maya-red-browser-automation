@@ -7,8 +7,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class CloseTabs extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -19,7 +19,6 @@ class CloseTabs extends Node {
             action: new fields.Select({ options: ['Close', 'Exclude'], defaultVal: 'Close' }),
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000 }),
             tabIds: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
-            session: new fields.ConfigNode({ type: Connect })
         },
         icon: "white-globe.svg"
     })
@@ -49,7 +48,7 @@ class CloseTabs extends Node {
         if (msg.isError) {
             return msg
         }
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', `Closing tabs...`)
         const tabIds = this.getTabIds(vals.tabIds)

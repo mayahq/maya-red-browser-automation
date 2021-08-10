@@ -7,8 +7,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class ExecuteFunction extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -21,7 +21,6 @@ class ExecuteFunction extends Node {
             tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             func: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'], displayName: 'function' }),
             args: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'], displayName: 'arguments' }),
-            session: new fields.ConfigNode({ type: Connect })
         },
         icon: "white-globe.svg"
     })
@@ -38,7 +37,7 @@ class ExecuteFunction extends Node {
         if (msg.isError) {
             return msg
         }
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const page = new Page(secretKey)
         this.setStatus('PROGRESS', 'Executing...')
 

@@ -3,8 +3,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class FindTab extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -13,7 +13,6 @@ class FindTab extends Node {
         label: 'Find Tab',
         fields: {
             query: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'global', 'flow'] }),
-            session: new fields.ConfigNode({ type: Connect })
         },
         icon: "white-globe.svg"
     })
@@ -22,7 +21,7 @@ class FindTab extends Node {
         if (msg.isError) {
             return msg
         }
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', 'Finding tab...')
 

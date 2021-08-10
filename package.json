@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mayahq/module-sdk": "^0.3.1",
+    "@mayahq/module-sdk": "^0.4.6",
     "axios": "^0.21.1",
     "jsonata": "^1.8.4",
     "open": "^8.0.5",
@@ -20,6 +20,7 @@
   },
   "nodepath": "./src/nodes",
   "nodeRedModuleName": "maya-browser-automation",
+  "secureStorageVals": "./src/manifest.json",
   "node-red": {
     "nodes": {
       "maya-browser-click": "src/nodes/mayaBrowserClick/mayaBrowserClick.node.js",

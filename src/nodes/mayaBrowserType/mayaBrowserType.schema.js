@@ -3,8 +3,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class Type extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -16,7 +16,6 @@ class Type extends Node {
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
             tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             index: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 0}),
-            session: new fields.ConfigNode({ type: Connect }),
             content: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow'] }),
         }
     })
@@ -26,7 +25,7 @@ class Type extends Node {
             return msg
         }
 
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const page = new Page(secretKey)
         this.setStatus('PROGRESS', 'Typing...')
 

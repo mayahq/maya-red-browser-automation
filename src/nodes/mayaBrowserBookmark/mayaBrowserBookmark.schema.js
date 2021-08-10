@@ -8,8 +8,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Browser = require('../../utils/browser')
 
 class MayaBrowserBookmark extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
 
     static schema = new Schema({
@@ -54,8 +54,7 @@ class MayaBrowserBookmark extends Node {
                     },
                     getBookmarkFolders: {}
                 }
-            }),
-            session: new fields.ConfigNode({ type: Connect })
+            })
         },
         icon: "white-globe.svg"
 
@@ -70,7 +69,7 @@ class MayaBrowserBookmark extends Node {
             return msg
         }
 
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
 
         try {

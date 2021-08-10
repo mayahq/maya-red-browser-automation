@@ -7,8 +7,8 @@ const Connect = require('../mayaBrowserConnect/mayaBrowserConnect.schema')
 const Page = require('../../utils/page')
 
 class Click extends Node {
-    constructor(node, RED) {
-        super(node, RED)
+    constructor(node, RED, opts) {
+        super(node, RED, {...opts})
     }
     
     static schema = new Schema({
@@ -21,7 +21,6 @@ class Click extends Node {
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
             tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
             index: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 0}),
-            session: new fields.ConfigNode({ type: Connect })
         },
         icon: "white-globe.svg"
     })
@@ -30,7 +29,7 @@ class Click extends Node {
         if (msg.isError) {
             return msg
         }
-        const { secretKey } = this.credentials.session
+        const secretKey = this.tokens.vals.access_token
         const page = new Page(secretKey)
         this.setStatus('PROGRESS', 'Clicking...')
 
