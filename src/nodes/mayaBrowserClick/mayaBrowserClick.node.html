@@ -9,8 +9,20 @@
             isProfileConfigNode: {
                 value: false
             },
+            delay: {
+                value: "100"
+            },
+            payloadTypedelay: {
+                value: "num"
+            },
             clickType: {
                 value: "click"
+            },
+            highlightDuration: {
+                value: "1000"
+            },
+            payloadTypehighlightDuration: {
+                value: "num"
             },
             selector: {
                 value: ""
@@ -46,11 +58,59 @@
         paletteLabel: "Click",
         exportable: true,
         oneditprepare: function() {
-            const clickTypeselectFieldValues = ["click", "mouseX"]
-            clickTypeselectFieldValues.forEach((val) => {
-                $("#node-input-clickType").append($("<option></option>").attr("value", val).text(val))
+            if (this.payloadTypedelay === null) {
+                if (this.delay === "") {
+                    this.payloadTypedelay = "date"
+                } else {
+                    this.payloadTypedelay = "num"
+                }
+            } else if (this.payloadTypedelay === 'string' || this.payloadTypedelay === 'none') {
+                this.payloadTypedelay = "num"
+            }
+
+            $("#node-input-payloadTypedelay").val(this.payloadTypedelay)
+            $("#node-input-delay").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypedelay"),
+                types: ["msg", "global", "flow", "num"]
             })
+            $("#node-input-delay").typedInput("type", this.payloadTypedelay)
+
+
+            const clickTypeFieldSetNames = ["click", "mouseX"]
+            clickTypeFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-clickType").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
             $("#node-input-clickType").val(this.clickType)
+            $("#node-input-clickType").on("change", (e) => {
+                const newFieldSet = e.target.value
+                clickTypeFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-clickType").val(e.target.value)
+            })
+
+            if (this.payloadTypehighlightDuration === null) {
+                if (this.highlightDuration === "") {
+                    this.payloadTypehighlightDuration = "date"
+                } else {
+                    this.payloadTypehighlightDuration = "num"
+                }
+            } else if (this.payloadTypehighlightDuration === 'string' || this.payloadTypehighlightDuration === 'none') {
+                this.payloadTypehighlightDuration = "num"
+            }
+
+            $("#node-input-payloadTypehighlightDuration").val(this.payloadTypehighlightDuration)
+            $("#node-input-highlightDuration").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypehighlightDuration"),
+                types: ["msg", "global", "flow", "num"]
+            })
+            $("#node-input-highlightDuration").typedInput("type", this.payloadTypehighlightDuration)
 
             if (this.payloadTypeselector === null) {
                 if (this.selector === "") {
@@ -143,6 +203,22 @@
         <label for="node-input-clickType">clickType</label>
         <select type="text" id="node-input-clickType">
         </select>
+    </div>
+    <div id="fieldset-click" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-mouseX" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-delay">delay</label>
+            <input type="text" id="node-input-delay"></input>
+            <input type="hidden" id="node-input-payloadTypedelay">
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-highlightDuration">highlightDuration</label>
+        <input type="text" id="node-input-highlightDuration"></input>
+        <input type="hidden" id="node-input-payloadTypehighlightDuration">
     </div>
     <div class="form-row">
         <label for="node-input-selector">selector</label>

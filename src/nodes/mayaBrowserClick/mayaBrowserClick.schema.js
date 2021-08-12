@@ -16,7 +16,16 @@ class Click extends Node {
         category: 'Maya Browser Automation',
         label: 'Click',
         fields: {
-            clickType: new fields.Select({ options: ['click', 'mouseX'] }),
+            // clickType: new fields.Select({ options: ['click', 'mouseX'] }),
+            clickType: new fields.SelectFieldSet({
+                fieldSets: {
+                    click: {},
+                    mouseX: {
+                        delay: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 100 })
+                    }
+                }
+            }),
+            highlightDuration: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 1000 }),
             selector: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'global', 'flow']}),
             timeout: new fields.Typed({ type: 'num', allowedTypes: ['msg', 'global', 'flow'], defaultVal: 2000}),
             tabId: new fields.Typed({ type: 'msg', allowedTypes: ['msg', 'global', 'flow', 'str'], defaultVal:'tabs[0].id'}),
@@ -34,8 +43,14 @@ class Click extends Node {
         this.setStatus('PROGRESS', 'Clicking...')
 
         try {
+            let delay = null
+            if (vals.clickType.selected === 'mouseX') {
+                delay = vals.clickType.childValues.delay
+            }
             const res = await page.click({
-                clickType: vals.clickType,
+                clickType: vals.clickType.selected,
+                delay: delay,
+                highlightDuration: vals.highlightDuration,
                 selector: vals.selector,
                 index: vals.index,
                 timeout: vals.timeout,
