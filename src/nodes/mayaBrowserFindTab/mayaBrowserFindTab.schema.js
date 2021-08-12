@@ -18,9 +18,6 @@ class FindTab extends Node {
     })
 
     async onMessage(msg, vals) {
-        if (msg.isError) {
-            return msg
-        }
         const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
         this.setStatus('PROGRESS', 'Finding tab...')
@@ -32,8 +29,8 @@ class FindTab extends Node {
             this.setStatus('SUCCESS', 'Found')
         } catch (e) {
             this.setStatus('ERROR', e.toString().substring(0, 10) + '...')
-            msg.error = e
-            msg.isError = true
+            msg.__error = e
+            msg.__isError = true
         }
 
         return msg

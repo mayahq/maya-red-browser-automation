@@ -76,8 +76,8 @@ module.exports = function (RED) {
 						shape: "ring",
 						text: "error: " + JSON.stringify(error),
 					});
-					msg.error = error;
-					msg.isError = true;
+					msg.__error = error;
+					msg.__isError = true;
 					console.error("Error in scraping", msg.error);
 					node.send(msg);
 				} else {
@@ -101,17 +101,17 @@ module.exports = function (RED) {
 						try {
 							let expression =
 								`$map($zip(${zipArgs}), function($x, $i, $a) {
-                {
-                    ${objectArg.slice(0, -1)}
-                    }
-              })`
+						{
+							${objectArg.slice(0, -1)}
+							}
+					})`
               console.log("final jsonat:", expression);
               let jsonataExp = jsonata(expression);
 							msg.result = jsonataExp.evaluate(res.data.data);
 							node.send(msg);
 						} catch (error) {
-							msg.error = error;
-							msg.isError = true;
+							msg.__error = error;
+							msg.__isError = true;
 							console.error("Error in merging", msg.error);
 							node.send(msg);
 						}
@@ -128,8 +128,8 @@ module.exports = function (RED) {
 					shape: "ring",
 					text: "error: " + err,
 				});
-				msg.error = err;
-				msg.isError = true;
+				msg.__error = err;
+				msg.__isError = true;
 				node.send(msg);
 			}
 		});

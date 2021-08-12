@@ -20,9 +20,6 @@ class Scrape extends Node {
     })
 
     async onMessage(msg, vals) {
-        if (msg.isError) {
-            return msg
-        }
         const secretKey = this.tokens.vals.access_token
         const page = new Page(secretKey)
         this.setStatus('PROGRESS', 'Scraping...')
@@ -32,16 +29,16 @@ class Scrape extends Node {
             if (res.data.status === 'ERROR') {
                 const error = res.data.error
                 this.setStatus('ERROR', error.description)
-                msg.error = error
-                msg.isError = true
+                msg.__error = error
+                msg.__isError = true
             } else {
                 this.setStatus('SUCCESS', 'Scraped Successfully')
                 msg.scrapeResult = res.data.data
             }
         } catch (e) {
             this.setStatus('ERROR', e.toString().substring(0, 50) + '...')
-            msg.error = e
-            msg.isError = true
+            msg.__error = e
+            msg.__isError = true
         }
 
         return msg

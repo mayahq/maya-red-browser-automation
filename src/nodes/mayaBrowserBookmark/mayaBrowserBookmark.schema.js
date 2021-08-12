@@ -65,10 +65,6 @@ class MayaBrowserBookmark extends Node {
     }
 
     async onMessage(msg, vals) {
-        if (msg.isError) {
-            return msg
-        }
-
         const secretKey = this.tokens.vals.access_token
         const browser = new Browser(secretKey)
 
@@ -83,8 +79,8 @@ class MayaBrowserBookmark extends Node {
                 const { data } = await browser.getBookmarks({ parentId })
                 
                 if (data.status === 'ERROR') {
-                    msg.error = data.error
-                    msg.isError = true
+                    msg.__error = data.error
+                    msg.__isError = true
                     this.setStatus('ERROR', data.error.description)
                     return msg
                 }
@@ -101,8 +97,8 @@ class MayaBrowserBookmark extends Node {
                 const { data } = await browser.addBookmark({ title, url, parentId: parent })
     
                 if (data.status === 'ERROR') {
-                    msg.error = data.error
-                    msg.isError = true
+                    msg.__error = data.error
+                    msg.__isError = true
                     this.setStatus('ERROR', data.error.description)
                     return msg
                 }
@@ -118,8 +114,8 @@ class MayaBrowserBookmark extends Node {
                 const { data } = await browser.removeBookmark({ bookmarkId })
     
                 if (data.status === 'ERROR') {
-                    msg.error = data.error
-                    msg.isError = true
+                    msg.__error = data.error
+                    msg.__isError = true
                     this.setStatus('ERROR', data.error.description)
                     return msg
                 }
@@ -134,8 +130,8 @@ class MayaBrowserBookmark extends Node {
                 const { data } = await browser.getBookmarkFolders()
                 
                 if (data.status === 'ERROR') {
-                    msg.error = data.error
-                    msg.isError = true
+                    msg.__error = data.error
+                    msg.__isError = true
                     this.setStatus('ERROR', data.error.description)
                     return msg
                 }
@@ -145,8 +141,8 @@ class MayaBrowserBookmark extends Node {
                 return msg
             }   
         } catch (e) {
-            msg.error = e
-            msg.isError = true
+            msg.__error = e
+            msg.__isError = true
             this.setStatus('ERROR', `Unknown error: ${e.toString()}`)
             return msg
         }
