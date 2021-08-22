@@ -1,0 +1,154 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("maya-browser-tab-function", {
+        category: "Maya Browser Automation",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            tabIdsToHide: {
+                value: "[]"
+            },
+            payloadTypetabIdsToHide: {
+                value: "json"
+            },
+            tabIdsToShow: {
+                value: "[]"
+            },
+            payloadTypetabIdsToShow: {
+                value: "json"
+            },
+            action: {
+                value: "hide"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Tab Function"
+        },
+        paletteLabel: "Tab Function",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypetabIdsToHide === null) {
+                if (this.tabIdsToHide === "") {
+                    this.payloadTypetabIdsToHide = "date"
+                } else {
+                    this.payloadTypetabIdsToHide = "json"
+                }
+            } else if (this.payloadTypetabIdsToHide === 'string' || this.payloadTypetabIdsToHide === 'none') {
+                this.payloadTypetabIdsToHide = "json"
+            }
+
+            $("#node-input-payloadTypetabIdsToHide").val(this.payloadTypetabIdsToHide)
+            $("#node-input-tabIdsToHide").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypetabIdsToHide"),
+                types: ["num", "msg", "flow", "global", "json"]
+            })
+            $("#node-input-tabIdsToHide").typedInput("type", this.payloadTypetabIdsToHide)
+
+            if (this.payloadTypetabIdsToShow === null) {
+                if (this.tabIdsToShow === "") {
+                    this.payloadTypetabIdsToShow = "date"
+                } else {
+                    this.payloadTypetabIdsToShow = "json"
+                }
+            } else if (this.payloadTypetabIdsToShow === 'string' || this.payloadTypetabIdsToShow === 'none') {
+                this.payloadTypetabIdsToShow = "json"
+            }
+
+            $("#node-input-payloadTypetabIdsToShow").val(this.payloadTypetabIdsToShow)
+            $("#node-input-tabIdsToShow").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypetabIdsToShow"),
+                types: ["num", "msg", "flow", "global", "json"]
+            })
+            $("#node-input-tabIdsToShow").typedInput("type", this.payloadTypetabIdsToShow)
+
+
+            const actionFieldSetNames = ["hide", "show"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="maya-browser-tab-function">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-hide" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-tabIdsToHide">Tab IDs</label>
+            <input type="text" id="node-input-tabIdsToHide"></input>
+            <input type="hidden" id="node-input-payloadTypetabIdsToHide">
+        </div>
+    </div>
+
+    <div id="fieldset-show" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-tabIdsToShow">Tab IDs</label>
+            <input type="text" id="node-input-tabIdsToShow"></input>
+            <input type="hidden" id="node-input-payloadTypetabIdsToShow">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="maya-browser-tab-function">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

@@ -66,11 +66,11 @@ class Browser {
         })
     }
 
-    open(url, timeout = 2000) {
+    open(url, additionalOptions = {}, timeout = 2000) {
         return new Promise((resolve, reject) => {
             const data = {
                 type: "goto",
-                payload: { url: url, timeout },
+                payload: { url: url, timeout, additionalOptions },
                 timeout: timeout,
             }
             api.post(this.secretKey, data)
@@ -117,6 +117,18 @@ class Browser {
                 .catch((e) => {
                     reject(e)
                 })
+        })
+    }
+
+    executeTabFunction({ payload }) {
+        return new Promise((resolve, reject) => {
+            const data = {
+                type: 'executeTabFunction',
+                payload: payload
+            }
+            api.post(this.secretKey, data)
+                .then((result) => resolve(result))
+                .catch((e) => reject(e))
         })
     }
 }
