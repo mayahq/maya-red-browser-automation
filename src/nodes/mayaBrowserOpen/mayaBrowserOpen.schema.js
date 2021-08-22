@@ -13,6 +13,7 @@ class Open extends Node {
         label: 'Open',
         fields: {
             url: new fields.Typed({ type: 'str', allowedTypes: ['msg', 'flow', 'global'] }),
+            additionalOptions: new fields.Typed({ type: 'json', allowedTypes: ['msg', 'flow', 'global'], defaultVal: '{}' })
         },
         icon: "white-globe.svg"
     })
@@ -23,7 +24,7 @@ class Open extends Node {
         this.setStatus('PROGRESS', `Opening ${vals.url}`)
 
         try {
-            const result = await browser.open(vals.url)
+            const result = await browser.open(vals.url, vals.additionalOptions)
             msg.tabs = [result.data.tab]
             this.setStatus('SUCCESS', `Opened ${vals.url}`)
         } catch (e) {

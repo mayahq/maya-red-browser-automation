@@ -15,6 +15,12 @@
             payloadTypeurl: {
                 value: "str"
             },
+            additionalOptions: {
+                value: "{}"
+            },
+            payloadTypeadditionalOptions: {
+                value: "json"
+            },
         },
         inputs: 1,
         outputs: 1,
@@ -43,6 +49,24 @@
             })
             $("#node-input-url").typedInput("type", this.payloadTypeurl)
 
+            if (this.payloadTypeadditionalOptions === null) {
+                if (this.additionalOptions === "") {
+                    this.payloadTypeadditionalOptions = "date"
+                } else {
+                    this.payloadTypeadditionalOptions = "json"
+                }
+            } else if (this.payloadTypeadditionalOptions === 'string' || this.payloadTypeadditionalOptions === 'none') {
+                this.payloadTypeadditionalOptions = "json"
+            }
+
+            $("#node-input-payloadTypeadditionalOptions").val(this.payloadTypeadditionalOptions)
+            $("#node-input-additionalOptions").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypeadditionalOptions"),
+                types: ["msg", "flow", "global", "json"]
+            })
+            $("#node-input-additionalOptions").typedInput("type", this.payloadTypeadditionalOptions)
+
         },
         oneditsave: function() {},
         oneditcancel: function() {},
@@ -62,6 +86,11 @@
         <label for="node-input-url">url</label>
         <input type="text" id="node-input-url"></input>
         <input type="hidden" id="node-input-payloadTypeurl">
+    </div>
+    <div class="form-row">
+        <label for="node-input-additionalOptions">additionalOptions</label>
+        <input type="text" id="node-input-additionalOptions"></input>
+        <input type="hidden" id="node-input-payloadTypeadditionalOptions">
     </div>
 </script>
 
