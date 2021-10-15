@@ -1,6 +1,6 @@
 {
   "name": "maya-red-browser-automation",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Control your browser with Maya",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mayahq/module-sdk": "^0.4.10",
+    "@mayahq/module-sdk": "^0.4.11",
     "axios": "^0.21.1",
     "jsonata": "^1.8.4",
     "open": "^8.0.5",
