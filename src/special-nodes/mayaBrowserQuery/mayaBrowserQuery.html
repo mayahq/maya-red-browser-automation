@@ -27,38 +27,38 @@
 			oneditprepare: function () {
 
 				if (this.payloadTypeTabId === null) {
-            if (this.tabId === "") {
-                this.payloadTypeTabId = "date";
-            } else {
-                this.payloadTypeTabId = "str";
-            }
-        } else if (this.payloadTypeTabId === 'string' || this.payloadTypeTabId === 'none') {
-            this.payloadTypeTabId = "str";
-        }
-        $("#node-input-payloadTypeTabId").val(this.payloadTypeTabId);
-        $("#node-input-tabId").typedInput({
-            default: 'msg',
-            typeField: $("#node-input-payloadTypeTabId"),
-            types:['flow','global','msg','str']
-        });
-        $("#node-input-tabId").typedInput('type',this.payloadTypeTabId);
+					if (this.tabId === "") {
+						this.payloadTypeTabId = "date";
+					} else {
+						this.payloadTypeTabId = "str";
+					}
+				} else if (this.payloadTypeTabId === 'string' || this.payloadTypeTabId === 'none') {
+					this.payloadTypeTabId = "str";
+				}
+				$("#node-input-payloadTypeTabId").val(this.payloadTypeTabId);
+				$("#node-input-tabId").typedInput({
+					default: 'msg',
+					typeField: $("#node-input-payloadTypeTabId"),
+					types:['flow','global','msg','str']
+				});
+				$("#node-input-tabId").typedInput('type',this.payloadTypeTabId);
 
 				if (this.payloadTypeTimeout === null) {
-            if (this.timeout === "") {
-                this.payloadTypeTimeout = "date";
-            } else {
-                this.payloadTypeTimeout = "str";
-            }
-        } else if (this.payloadTypeTimeout === 'str' || this.payloadTypeTimeout === 'none') {
-            this.payloadTypeTimeout = "num";
-        }
-        $("#node-input-payloadTypeTimeout").val(this.payloadTypeTabId);
-        $("#node-input-timeout").typedInput({
-            default: 'num',
-            typeField: $("#node-input-payloadTypeTimeout"),
-            types:['flow','global','msg','num']
-        });
-        $("#node-input-timeout").typedInput('type',this.payloadTypeTimeout);
+					if (this.timeout === "") {
+						this.payloadTypeTimeout = "date";
+					} else {
+						this.payloadTypeTimeout = "str";
+					}
+				} else if (this.payloadTypeTimeout === 'str' || this.payloadTypeTimeout === 'none') {
+					this.payloadTypeTimeout = "num";
+				}
+				$("#node-input-payloadTypeTimeout").val(this.payloadTypeTabId);
+				$("#node-input-timeout").typedInput({
+					default: 'num',
+					typeField: $("#node-input-payloadTypeTimeout"),
+					types:['flow','global','msg','num']
+				});
+				$("#node-input-timeout").typedInput('type',this.payloadTypeTimeout);
 
 				function generateOption(i, option) {
 					var container = $("<li/>", {
@@ -100,7 +100,7 @@
 					//var sel = $('<select>').appendTo('body');
 					$(arr).each(function() {
 							var isSelected= false;
-							if (option.extract == this.val) {
+							if (option.extract === this.val) {
 									isSelected = true;
 							}
 							extractField.append($("<option>").attr('value',this.val).text(this.text).prop('selected',isSelected));
@@ -158,7 +158,7 @@
 					var o = {
 						key: option.find(".node-input-option-key").val(), //typedInput('value'),
 						xpath: option.find(".node-input-option-xpath").val(), //typedInput('value'),
-						extract: options.find(".node-input-option-extract").val(),
+						extract: option.find(".node-input-option-extract").val(),
 					};
 					node.options.push(o);
 				});
