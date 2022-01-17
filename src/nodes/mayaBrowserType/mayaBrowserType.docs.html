@@ -1,23 +1,32 @@
-<h2>Description</h2>
-<p>Type in a specified element on a given (not necessarily open) browser tab.</p>
+<h2 data-type="description-title">Description</h2>
+<p data-type="description-summary">Type in a specified element on a given (not necessarily open) browser tab.</p>
 <br>
 
 <h2>Config</h2>
 <dl class="message-properties">
 
-    <dt>selector<span class="property-type">string</span></dt>
+    <dt>
+        <span class="property-name">selector</span>
+        <span class="property-type">string</span>
+    </dt>
     <dd>
         The xpath for the element to type inside. We recommend watching <a href='https://www.youtube.com/watch?v=NhG__BL8zFo'>this video</a> to learn
         more about xpaths (it's slightly long, but its worth it).
     </dd>
 
-    <dt>timeout <span class="property-type">number</span></dt>
+    <dt>
+        <span class="property-name">timeout</span> 
+        <span class="property-type">number</span>
+    </dt>
     <dd>
         The amount of time in milliseconds that the node will wait for the target element to load in page. Whenever the element is
         loaded, the type action is performed immediately. If it doesn't load within this time period, the node will error out.
     </dd>
 
-    <dt>tabId <span class="property-type">number</span></dt>
+    <dt>
+        <span class="property-name">tabId</span> 
+        <span class="property-type">number</span>
+    </dt>
     <dd>
         The unique tab id in which the website to be queried is rendered in. It can be obtained in using 
         <code> {"url":"*://*.[domain]/*"}</code> in the <code>find tab</code> node.
@@ -27,18 +36,27 @@
         activeTab</code> which takes in a <code>boolean</code> to search for a tab in focus with the url pattern matching above.
     </dd>
 
-    <dt>index <span class="property-type">number</span></dt>
+    <dt>
+        <span class="property-name">index</span> 
+        <span class="property-type">number</span>
+    </dt>
     <dd>
         The index of the element to type in, in case your xpath query resolves to multiple elements. If sure that your query
         will always resolve to a unique element, just set this to 0.
     </dd>
 
-    <dt>session <span class="property-type">config</span></dt>
+    <dt>
+        <span class="property-name">session</span> 
+        <span class="property-type">config</span>
+    </dt>
     <dd>
         Holds the encryption keys used by Maya to securely talk to your browser.
     </dd>
 
-    <dt>content <span class="property-type">string</span></dt>
+    <dt>
+        <span class="property-name">content</span> 
+        <span class="property-type">string</span>
+    </dt>
     <dd>
         The actual content to type in the selected element.
     </dd>
@@ -58,10 +76,16 @@
 </p>
 <dl class="message-properties">
 
-    <dt>isError<span class="property-type">boolean</span></dt>
+    <dt>
+        <span class="property-name">isError</span>
+        <span class="property-type">boolean</span>
+    </dt>
     <dd>Set to true if the type operation failed for whatever reason. This property might not be set at all in case of no error.</dd>
 
-    <dt>error <span class="property-type">object</span></dt>
+    <dt>
+        <span class="property-name">error</span> 
+        <span class="property-type">object</span>
+    </dt>
     <dd>Contains information about the error that occured</dd>
     
 </dl>
