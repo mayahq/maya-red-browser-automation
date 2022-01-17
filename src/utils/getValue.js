@@ -8,7 +8,6 @@ async function getValue(value, valueType, msg, RED) {
         res
       ) {
         if (err) {
-          node.error(err.msg);
           reject(err.msg);
         } else {
           resolve(res);
