@@ -36,5 +36,25 @@
       "maya-browser-bookmark": "src/nodes/mayaBrowserBookmark/mayaBrowserBookmark.node.js",
       "maya-browser-tab-function": "src/nodes/mayaBrowserTabFunction/mayaBrowserTabFunction.node.js"
     }
+  },
+  "mayaDetails": {
+    "name": "Maya Browser Automation",
+    "version": "1.7.1",
+    "description": "Maya module to automate your default web browser",
+    "author": "dush-t",
+    "type": "git",
+    "needsUserProfile": true,
+    "configType": {
+      "name": "Maya Browser Connection",
+      "oid": "61973feb53546c43979f67de"
+    },
+    "thumbnail": "",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/mayahq/maya-red-browser-automation.git"
+    },
+    "origin": {
+      "moduleId": "618e68cbb14a32dae59c1fa0"
+    }
   }
 }
