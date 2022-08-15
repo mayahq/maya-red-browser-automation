@@ -32,6 +32,7 @@ module.exports = function (RED) {
 		const userDir = RED.settings.get('userDir')
 		const masterKey = RED.settings.get('masterKey')
 		const mayaBackendUrl = RED.settings.get('mayaBackendUrl')
+		const profileSlug = RED.settings.get('profileSlug') || 'none'
 		const mayaRuntimeId = getRuntimeId(userDir)
 
 
@@ -40,11 +41,22 @@ module.exports = function (RED) {
 			masterKey: masterKey,
 			modulePackageName: 'maya-red-browser-automation',
 			_mayaRuntimeId: mayaRuntimeId,
-			mayaBackendUrl: mayaBackendUrl
+			mayaBackendUrl: mayaBackendUrl,
+			profileSlug: profileSlug
 		})
 
-		tokens.get()
-			.then((val) => this.secretKey = val.access_token)
+		try {
+			tokens.get()
+				.then((val) => {
+					try {
+						this.secretKey = val.tokens.access_token
+					} catch (e) {
+						console.log('Null token vals')
+					}
+				})
+		} catch (e) {
+			console.log('Token fetch failed', e)
+		}
 
 		this.on("input", async (msg) => {
 			console.log('secretKey', this.secretKey)
